@@ -51,7 +51,7 @@ var SeeSaw = ( function () {
 		this._pivotBodyDef = new b2BodyDef;
 		this._pivotBodyDef.type = b2Body.b2_staticBody;
 		this._pivotBodyDef.position.Set(
-			Physics.pixelToMeters(this._positionX + (this._width/2)), 
+			Physics.pixelToMeters(this._positionX), 
 			Physics.pixelToMeters(this._positionY + (this._height/2))
 		);
 		this._pivotFixtureDef = new b2FixtureDef;								// Create a new Fixture Definition for a See Saw Object.		
@@ -66,12 +66,15 @@ var SeeSaw = ( function () {
 		this._pivotBody = this._pivotBody.CreateFixture(this._pivotFixtureDef).GetBody();	// Create the defined Fixture for the See Saw Body.
 		
 		this._revoluteJointDef = new b2RevoluteJointDef;
-	/*	this._revoluteJointDef.BodyA = this._body;
+		/*this._revoluteJointDef.BodyA = this._body;
 		this._revoluteJointDef.BodyB = this._pivotBody;
 		this._revoluteJointDef.collideConnected = true;
 		this._revoluteJointDef.localAnchorA.Set(0,0);
 		this._revoluteJointDef.localAnchorB.Set(0,0);
 		*/
+		this._revoluteJointDef.Initialize(this._body, this._pivotBody, this._body.GetWorldCenter());
+		Physics.world.CreateJoint(this._revoluteJointDef);
+		
 		
 		
 		
