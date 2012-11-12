@@ -3,12 +3,13 @@
 // its velocity is "transfered" to the plaform
 var FloatingPlatform = (function() {
 	
-	this.body; //Reference to body
-	this.fixture; // refernce to fixture
-
 
 	function FloatingPlatform(x,y,width,height)
 	{
+
+		this.body; //Reference to body
+		this.fixture; // refernce to fixture
+
 		var bodyDef = new b2BodyDef;
 		bodyDef.type = b2Body.b2_kinematicBody;
 

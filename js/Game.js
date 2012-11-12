@@ -15,11 +15,6 @@ var Game = (function () {
 
         // Creating the level
         this.level = new Level('data/levels/level1.json');
-
-        //Adding objects to the world
-        this.level.add(new FloatingPlatform(250,150,300,10));
-
-        //Logger.debug(this.level.export());
     }
 
     Game.prototype.update = function () {

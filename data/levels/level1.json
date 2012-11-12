@@ -1,1 +1,27 @@
-{"type":"FloatingPlatform","x":10,"y":30,"width":400,"height":20}
+{
+   "levelEntites":[
+      {
+         "type":"FloatingPlatform",
+         "x":250,
+         "y":100,
+         "width":300,
+         "height":20
+      },
+
+      {
+         "type":"FloatingPlatform",
+         "x":500,
+         "y":300,
+         "width":300,
+         "height":10
+      },
+
+      {
+         "type":"FloatingPlatform",
+         "x":800,
+         "y":500,
+         "width":100,
+         "height":10
+      }
+   ]
+}
