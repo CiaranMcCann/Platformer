@@ -1,5 +1,9 @@
 var Game = (function () {
 
+    this.canvas;        //reference to canvas 
+    this.canvasContext;  // reference to canvas drawing context
+    this.level;          // manages all the objects 
+
     function Game() {
  
         Graphics.init();
@@ -7,7 +11,15 @@ var Game = (function () {
         this.canvas = Graphics.createCanvas("gameCanvas");
         this.canvasContext = this.canvas.getContext("2d");
 
-        Physics.init(this.canvas);    
+        Physics.init(this.canvas);  
+
+        // Creating the level
+        this.level = new Level();
+
+        //Adding objects to the world
+        this.level.add(new FloatingPlatform(250,150,300,10));
+
+        //Logger.debug(this.level.export());
     }
 
     Game.prototype.update = function () {
@@ -19,15 +31,6 @@ var Game = (function () {
     Game.prototype.draw = function () {
         
       //draw code ...
-
-      var img = AssetManager.images["placeHolderImage"]; // Get my image from the asset manager
-
-      this.canvasContext.drawImage(
-        img,
-        this.canvas.width/2 - img.width/2,
-        this.canvas.height/2 - img.height/2
-      )
-
     };
 
     Game.prototype.step = function () {
