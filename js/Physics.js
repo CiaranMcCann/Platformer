@@ -3,6 +3,7 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
 	b2BodyDef = Box2D.Dynamics.b2BodyDef,
 	b2Body = Box2D.Dynamics.b2Body,
 	b2FixtureDef = Box2D.Dynamics.b2FixtureDef,
+  b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	b2Fixture = Box2D.Dynamics.b2Fixture,
 	b2World = Box2D.Dynamics.b2World,
 	b2MassData = Box2D.Collision.Shapes.b2MassData,
@@ -89,7 +90,7 @@ var Physics;
         }
         bodyDef.position.x = Math.random() * 25;
         bodyDef.position.y = Math.random() * 10;
-        Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
+       // Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
     }
 }
 

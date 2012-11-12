@@ -6,13 +6,14 @@ var Game = (function () {
 
         this.canvas = Graphics.createCanvas("gameCanvas");
         this.canvasContext = this.canvas.getContext("2d");
-
-        Physics.init(this.canvas);    
+       
+        Physics.init(this.canvas);  
+         this.playerOne = new Player(10,10);  
     }
 
     Game.prototype.update = function () {
       
-      //update code ...
+      this.playerOne.update();
 
     };
 
