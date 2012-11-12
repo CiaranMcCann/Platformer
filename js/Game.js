@@ -10,6 +10,9 @@ var Game = (function () {
 		
         Physics.init(this.canvas);
 			
+       
+        Physics.init(this.canvas);  
+         this.playerOne = new Player(10,10);  
 		this.cannonBalls = new Array();
 	
 		this.playerX = 200;
@@ -26,6 +29,7 @@ var Game = (function () {
     Game.prototype.update = function () {
       
       //update code ...this.canvas
+      this.playerOne.update();
 	  
 		if(keyboard.isKeyDown(37)) { // Left arrow
 			

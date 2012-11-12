@@ -4,6 +4,7 @@ $(document).ready(function () {
     AssetManager.loadImages(function () {
         
             var game = new Game();
+         
             function gameloop() {
                 Graphics.stats.update();
                 game.step();
