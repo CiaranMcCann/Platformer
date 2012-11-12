@@ -14,7 +14,7 @@ var Game = (function () {
         Physics.init(this.canvas);  
 
         // Creating the level
-        this.level = new Level();
+        this.level = new Level('data/levels/level1.json');
 
         //Adding objects to the world
         this.level.add(new FloatingPlatform(250,150,300,10));

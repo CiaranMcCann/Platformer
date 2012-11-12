@@ -4,9 +4,22 @@ var Level = (function(){
 	this.levelEnities; // holds all the enities
 
 	//Takes a level as a JSON string
-	function Level(){
+	function Level(levelfile){
 
 		this.levelEnities = [];
+
+		$.getJSON(levelfile, function(data) {
+		  var items = [];
+
+		  $.each(data, function(key, val) {
+		    items.push('<li id="' + key + '">' + val + '</li>');
+		  });
+
+		  $('<ul/>', {
+		    'class': 'my-new-list',
+		    html: items.join('')
+		  }).appendTo('body');
+		});
 	}
 
 	Level.prototype.add = function(enity) {

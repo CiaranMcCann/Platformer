@@ -1,0 +1,7 @@
+{
+	type: "FloatingPlatform",
+	x: 10,
+	y: 30,
+	width: 400,
+	height: 20
+}
