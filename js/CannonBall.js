@@ -6,7 +6,9 @@ var CannonBall = (function () {
 		var fixDef = new b2FixtureDef();	
 	    var bodyDef = new b2BodyDef();	
 		
-		fixDef.density = 1.0; fixDef.friction = 0.5; fixDef.restitution = 0.2;
+		fixDef.density = 1.0; 
+		fixDef.friction = 0.5; 
+		fixDef.restitution = 0.2;
 		fixDef.shape= new b2CircleShape(0.3);		
 		bodyDef.type = b2Body.b2_dynamicBody;
 		bodyDef.position.Set(xPos/30, yPos/30);
@@ -18,7 +20,11 @@ var CannonBall = (function () {
 	}
 		
 	CannonBall.prototype.fire = function(xPos, yPos, targetX, targetY) {
-		this.physicsBody.SetPosition(new b2Vec2(xPos/30, yPos/30));
+
+		targetX *= 50;
+		targetY *= 50;
+
+		this.physicsBody.SetPosition(new b2Vec2(xPos, yPos));
 		this.physicsBody.SetLinearVelocity(new b2Vec2(0, 0));
 		this.direction = new b2Vec2(targetX-xPos, targetY-yPos);
 		this.direction.Normalize();
