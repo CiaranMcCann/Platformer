@@ -9,6 +9,24 @@ var Utilies;
         collection.splice(indexToRemove, 1);
     }
     Utilies.deleteFromCollection = deleteFromCollection;
+
+    function copy(newObject, oldObject) {
+
+        for( member in oldObject )
+        {
+            // if the member is itself an object, then we most also call copy on that
+            if( typeof(oldObject[member]) == "object" ){
+                    newObject[member] = std.copy(newObject[member],oldObject[member])
+            }else{
+                // if its a primative member just assign it
+                newObject[member] = oldObject[member];
+            }           
+        }
+
+        return newObject;
+    };
+    Utilies.copy = copy;
+
 })(Utilies || (Utilies = {}));
 
 var Logger;

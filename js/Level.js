@@ -9,16 +9,16 @@ var Level = (function(){
 		this.levelEnities = [];
 
 		$.getJSON(levelfile, function(data) {
-		  var items = [];
+			// var items = [];
 
-		  $.each(data, function(key, val) {
-		    items.push('<li id="' + key + '">' + val + '</li>');
-		  });
+			// $.each(data, function(key, val) {
+			//   items.push('<li id="' + key + '">' + val + '</li>');
+			// });
 
-		  $('<ul/>', {
-		    'class': 'my-new-list',
-		    html: items.join('')
-		  }).appendTo('body');
+		var g = Utilies.copy(new FloatingPlatform(),{"x":10,"y":30,"width":400,"height":20})
+
+		alert(data)
+
 		});
 	}
 
