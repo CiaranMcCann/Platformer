@@ -1,22 +1,30 @@
 
 var CannonBall = (function () {
 
-	function CannonBall(pB2dWorld, xPos, yPos) {
+	function CannonBall(pB2dWorld, xPos, yPos, catagoryBits, maskBits) {
 	
 		var fixDef = new b2FixtureDef();	
 	    var bodyDef = new b2BodyDef();	
 		
-		fixDef.density = 1.0; 
+		fixDef.density = 0.5; 
 		fixDef.friction = 0.5; 
 		fixDef.restitution = 0.2;
+		
 		fixDef.shape= new b2CircleShape(0.3);		
 		bodyDef.type = b2Body.b2_dynamicBody;
-		bodyDef.position.Set(xPos/30, yPos/30);
+		bodyDef.position.Set(xPos, yPos);
 		bodyDef.isBullet = false;
 		this.physicsBody = pB2dWorld.CreateBody(bodyDef);
 		this.physicsBody.CreateFixture(fixDef);
+
+		var filter = new b2FilterData();
+		filter.categoryBits = catagoryBits;
+		filter.groupIndex = 0;
+		filter.maskBits = maskBits;
+		this.physicsBody.GetFixtureList().SetFilterData(filter);
 		
 		this.active = false;
+		this.timeAlive = 0;
 	}
 		
 	CannonBall.prototype.fire = function(xPos, yPos, targetX, targetY) {
@@ -30,11 +38,21 @@ var CannonBall = (function () {
 		this.direction.Normalize();
 		this.direction = new b2Vec2(this.direction.x*200,this.direction.y*200);
 		
-		if(this.active == false) {
-			this.active = true;
-			this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
-		}
+		this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
 	};
+
+	CannonBall.prototype.draw = function(ctx) {
+
+		var pos = this.physicsBody.GetPosition();
+
+		ctx.save()
+
+        ctx.translate( Physics.metersToPixels(pos.x), Physics.metersToPixels(pos.y) )
+        ctx.rotate(this.physicsBody.GetAngle())
+        ctx.drawImage(AssetManager.images["cannonBall"], -10, -10, 20, 20)
+
+        ctx.restore()
+}
 	
 	return CannonBall;
 	
