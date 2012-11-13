@@ -17,6 +17,7 @@ var Game = (function () {
 
         // Creating the level
         this.level = new Level('data/levels/level1.json');
+		this.level.import(level2JSON);
 		
 		//this.seeSaw = new SeeSaw( 550, 400, 150, 5 );
     }
