@@ -4,27 +4,84 @@
     this.fixture; // refernce to fixture
 
 
-    function BreakableBody(posX, posY, width, height) {
-        this.positionX = posX;
-        this.positionY = posY;
-        var bodyDef = new b2BodyDef;
-        bodyDef.type = b2Body.b2_dynamicBody;
-        var fixDef = new b2FixtureDef;
-        fixDef.density = 1.0;
-        fixDef.friction = 1.0;
-        fixDef.restitution = 0.0;
-        fixDef.shape = new b2PolygonShape;
 
-        fixDef.shape.SetAsBox(Physics.pixelToMeters(width / 2), Physics.pixelToMeters(height / 2));
+    function BreakableBody(posX,posY,width,height)
+    {
+            
 
-        bodyDef.position.x = Physics.pixelToMeters(this.positionX);
-        bodyDef.position.y = Physics.pixelToMeters(this.positionY);
-        this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
-        this.body = this.fixture.GetBody();
+
+            posX =  Physics.pixelToMeters(posX);
+            posY =  Physics.pixelToMeters(posY);
+            var fixDef = new b2FixtureDef;
+            fixDef.density = 1.0;
+            fixDef.friction = 1.0;
+            fixDef.restitution = 0.0;
+            fixDef.shape = new b2PolygonShape;
+            this.position  = new b2Vec2(posX,posY);
+            this.width = width;
+            this.height = height;
+            this.m_velocity = b2Vec2(0,100);
+            //var m_velocity = new b2Vec2();
+            var m_shape1 = new b2PolygonShape();
+            var m_shape2 = new b2PolygonShape();
+
+            // Ground body
+      
+            var bd = new b2BodyDef();
+            var ground = Physics.world.CreateBody(bd);
+        
+            var shape = new b2EdgeShape();
+            fixDef.shape.SetAsEdge(new b2Vec2(-40.0, 0.0), new b2Vec2(40.0, 0.0));
+            ground.CreateFixture2(shape, 0.0);
+    
+
+            // Breakable dynamic body
+            var breakBodyDef = new b2BodyDef();
+            breakBodyDef.type = b2Body.b2_dynamicBody;
+            breakBodyDef.position = new b2Vec2(posX,posY);
+
+            this.width = width;
+            this.height = height;
+            //breakBodyDef.angle = 0.25 * 3.14;
+
+            m_body1 = Physics.world.CreateBody(breakBodyDef);
+
+            m_shape1 = new b2PolygonShape();
+            m_shape1.SetAsOrientedBox(0.5, 0.5, new b2Vec2(-0.5, 0.0), 0.0);
+            m_piece1 = m_body1.CreateFixture2(m_shape1, 1.0);
+
+            m_shape2 = new b2PolygonShape();
+            m_shape2.SetAsOrientedBox(0.5, 0.5, new b2Vec2(0.5, 0.0), 0.0);
+            m_piece2 = m_body1.CreateFixture2(m_shape2, 1.0);
+
+            breakBodyDef.position.x = posX;
+            breakBodyDef.position.y = posY;
+
+
+            this.fixture = Physics.world.CreateBody(breakBodyDef).CreateFixture(fixDef);
+            this.body = this.fixture.GetBody();
+
     }
-    BreakableBody.prototype.update = function () {
-
-    };
     return BreakableBody;
 })();
 
+    // function BreakableBody(posX, posY, width, height) 
+    // {
+    //     this.position  = new b2Vec2(posX,posY);
+    //     this.width = width;
+    //     this.height = height;
+        
+    //     var bodyDef = new b2BodyDef;
+    //     bodyDef.type = b2Body.b2_staticBody;
+    //     var fixDef = new b2FixtureDef;
+    //     fixDef.density = 1.0;
+    //     fixDef.friction = 1.0;
+    //     fixDef.restitution = 0.0;
+    //     fixDef.shape = new b2PolygonShape;
+
+    //     fixDef.shape.SetAsBox(Physics.pixelToMeters(width / 2), Physics.pixelToMeters(height / 2));
+    //     bodyDef.position.x = Physics.pixelToMeters(this.position.x);
+    //     bodyDef.position.y = Physics.pixelToMeters(this.position.y);
+    //     this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
+    //     this.body = this.fixture.GetBody();
+    // }
