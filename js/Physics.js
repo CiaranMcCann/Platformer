@@ -65,7 +65,6 @@ var Physics;
 		  bodyDef.position.x = 0;
 		  bodyDef.position.y = bounds*-1/Physics.worldScale;
 		  Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
-
     }
 
 
