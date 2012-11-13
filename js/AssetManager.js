@@ -7,6 +7,7 @@ var AssetManager;
     // no need for the full url or the extenision
     var imagesToLoad = [
        'data/images/placeHolderImage.png',
+	   'data/images/seesaw.png'
     ];
 
     AssetManager.images = [];

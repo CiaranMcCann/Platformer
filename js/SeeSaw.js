@@ -21,6 +21,9 @@ var SeeSaw = ( function () {
 	this._pivotRadius;															// The radius of the Pivot of the See Saw.
 	this._pivotBody;															// The Physical Body of the Pivot of the See Saw.
 	this._pivotBodyDef;															// The Phsyical Body Definition of the Pivot of the See Saw.
+	this._image;																// The image of the See Saw Object.
+	this._imageWidth;															// Width of the Sprite.
+	this._imageHeight;															// Height of the Sprite.
 	
 	// Name: See Saw
 	// Brief: This is the Constructor of the Class.
@@ -97,6 +100,14 @@ var SeeSaw = ( function () {
 		this._revoluteJoint.EnableLimit(true);
 		// Setting the limit in Radians for the max angle it can rotate.
 		this._revoluteJoint.SetLimits(-0.6108, 0.6108);
+		// Creating a new blank Image.
+		this._image = new Image();
+		// Setting the source of the image.
+		this._image.src = AssetManager.images["seesaw"];
+		// Setting the Width of the Sprite.
+		this._imageWidth = 50;
+		// Setting the Height of the Sprite.
+		this._imageHeight = 30;
 		
 	}; // End Function SeeSaw().
 	
