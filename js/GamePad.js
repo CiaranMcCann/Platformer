@@ -11,7 +11,13 @@ var GamePad = (function(){
 	} 
 	GamePad.prototype.Connect = function() {
 
-		if(this.connected == true)
+		try{
+			navigator.webkitGetGamepads()
+		}catch(e){
+			return true;
+		}
+
+		if(this.connected == true) 
 			return;
 
 		var gamepadSupportAvailable = navigator.webkitGetGamepads();
