@@ -10,7 +10,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
 	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
 	b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
 	b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef,
-	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint;
+	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint,
+    b2ContactListener = Box2D.Dynamics.b2ContactListener;
 
 var Physics;
 (function (Physics) {
@@ -99,6 +100,27 @@ var Physics;
         return meters * Physics.worldScale;
     }
     Physics.metersToPixels = metersToPixels;
+
+    function isObjectColliding(userData1, userData2 ,contact)
+    {
+            var UserDataA = contact.GetFixtureA().GetBody().GetUserData();
+            var UserDataB = contact.GetFixtureB().GetBody().GetUserData();
+
+            //console.log( UserDataA  + " == player " + UserDataB  + "== " +_this.body.GetUserData());
+
+                // If the contact is with the terrain and THIS body
+            if (
+                (UserDataA == userData1 || UserDataB == userData1) 
+                && 
+                (UserDataB == userData2 || UserDataA == userData2 )
+            ) {
+                return true;
+            }else{
+                return false;
+            }
+
+    }
+    Physics.isObjectColliding = isObjectColliding;
 
 })(Physics || (Physics = {}));
 

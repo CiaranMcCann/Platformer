@@ -24,6 +24,22 @@ var FloatingPlatform = (function() {
 		bodyDef.position.y =  Physics.pixelToMeters(y);
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
+
+		this.body.SetUserData( "FloatingPlatform"+x+y+width+height ); //Give it a unqine name
+
+		var _this = this;
+		Physics.addContactListener(function(contact){
+            
+            //check if the player and this platform are colliding
+            var isPlayerColliding = Physics.isObjectColliding("player",_this.body.GetUserData(), contact);
+
+            if(isPlayerColliding)
+            {
+            	_this.body.SetLinearVelocity(new b2Vec2(1.1,0));
+            	//_this.body.ApplyImpulse(new b2Vec2(200.5,0),_this.body.GetPosition()); 
+            }
+            
+		});
 	}
 
 	FloatingPlatform.prototype.update = function() {

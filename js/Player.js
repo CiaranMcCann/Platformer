@@ -35,6 +35,7 @@ var Player = (function (){
 		this.cannonBalls[1] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
 		this.cannonBalls[2] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
 
+		this.playerBody.SetUserData( "player"); //Give it a unqine name
 	}
 
 	Player.prototype.update = function()
