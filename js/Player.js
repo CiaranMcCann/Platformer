@@ -21,11 +21,11 @@ var Player = (function (){
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
-		var setFilter = new b2FilterData();
-		setFilter.categoryBits = catagoryBits;
-		setFilter.groupIndex = 0;
-		setFilter.maskBits = maskBits;
-		this.playerBody.GetFixtureList().SetFilterData(setFilter);
+		var filter = new b2FilterData();
+		filter.categoryBits = catagoryBits;
+		filter.groupIndex = 0;
+		filter.maskBits = maskBits;
+		this.playerBody.GetFixtureList().SetFilterData(filter);
 
 		this.maxJump = 60;
 		this.maxJump = 30;
@@ -34,15 +34,13 @@ var Player = (function (){
 		this.targetDirection = this.playerBody.GetPosition().Copy();
 		this.targetDirection.Multiply(5);
 
-
  		this.jumpnow = false;
 
  		this.cannonBalls = new Array();
-		this.maxBalls = 20;
+ 		this.manualBalls = new Array();
+		this.maxBalls = 30;
 		this.curBalls = 0;
 		this.triggerDown = false;
-
-		this.manualBalls = new Array();
 	}
 
 	Player.prototype.update = function()

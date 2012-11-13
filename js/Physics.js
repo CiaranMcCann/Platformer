@@ -55,13 +55,13 @@ var Physics;
 		  bodyDef.position.x = 0;
 		  bodyDef.position.y = canvas.height / Physics.worldScale;
 
-		  this.physicsBody = Physics.world.CreateBody(bodyDef);
-      this.physicsBody.CreateFixture(fixDef);
+		  var physicsBody = Physics.world.CreateBody(bodyDef);
+      physicsBody.CreateFixture(fixDef);
       var setFilter = new b2FilterData();
       setFilter.categoryBits = Physics.PLATFORM;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
-      this.physicsBody.GetFixtureList().SetFilterData(setFilter);    
+      physicsBody.GetFixtureList().SetFilterData(setFilter);   
 
 		  //left wall
 		  fixDef.shape.SetAsBox(bounds / Physics.worldScale, canvas.height / Physics.worldScale);
@@ -69,13 +69,13 @@ var Physics;
 		  bodyDef.position.y = 0;
 		  Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-      this.physicsBody = Physics.world.CreateBody(bodyDef);
-      this.physicsBody.CreateFixture(fixDef);
+      physicsBody = Physics.world.CreateBody(bodyDef);
+      physicsBody.CreateFixture(fixDef);
       var setFilter = new b2FilterData();
       setFilter.categoryBits = Physics.PLATFORM;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
-      this.physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.GetFixtureList().SetFilterData(setFilter);
 
 		  //right wall
 		  fixDef.shape.SetAsBox(0, canvas.height / Physics.worldScale);
@@ -83,13 +83,13 @@ var Physics;
 		  bodyDef.position.y = 0;
 		  Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-      this.physicsBody = Physics.world.CreateBody(bodyDef);
-      this.physicsBody.CreateFixture(fixDef);
+      physicsBody = Physics.world.CreateBody(bodyDef);
+      physicsBody.CreateFixture(fixDef);
       var setFilter = new b2FilterData();
       setFilter.categoryBits = Physics.PLATFORM;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
-      this.physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.GetFixtureList().SetFilterData(setFilter);
 
 		   //top wall
 		  fixDef.shape.SetAsBox(canvas.width / Physics.worldScale, bounds / Physics.worldScale);
@@ -97,13 +97,13 @@ var Physics;
 		  bodyDef.position.y = bounds*-1/Physics.worldScale;
 		  Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 
-      this.physicsBody = Physics.world.CreateBody(bodyDef);
-      this.physicsBody.CreateFixture(fixDef);
+      physicsBody = Physics.world.CreateBody(bodyDef);
+      physicsBody.CreateFixture(fixDef);
       var setFilter = new b2FilterData();
       setFilter.categoryBits = Physics.PLATFORM;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
-      this.physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.GetFixtureList().SetFilterData(setFilter);
 
 
       var fixDef = new b2FixtureDef;

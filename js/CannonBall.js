@@ -17,11 +17,11 @@ var CannonBall = (function () {
 		this.physicsBody = pB2dWorld.CreateBody(bodyDef);
 		this.physicsBody.CreateFixture(fixDef);
 
-		var setFilter = new b2FilterData();
-		setFilter.categoryBits = catagoryBits;
-		setFilter.groupIndex = 0;
-		setFilter.maskBits = maskBits;
-		this.physicsBody.GetFixtureList().SetFilterData(setFilter);
+		var filter = new b2FilterData();
+		filter.categoryBits = catagoryBits;
+		filter.groupIndex = 0;
+		filter.maskBits = maskBits;
+		this.physicsBody.GetFixtureList().SetFilterData(filter);
 		
 		this.active = false;
 		this.timeAlive = 0;
