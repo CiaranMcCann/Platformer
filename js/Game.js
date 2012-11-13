@@ -17,6 +17,8 @@ var Game = (function () {
 
         // Creating the level
         this.level = new Level('data/levels/level1.json');
+		
+		//this.seeSaw = new SeeSaw( 550, 400, 150, 5 );
     }
 
     Game.prototype.update = function () {
