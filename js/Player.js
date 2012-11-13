@@ -1,9 +1,9 @@
 var Player = (function (){
 	
-	function Player(x,y) {
+	function Player(x,y,keys) {
 
 		var box = new b2BodyDef;
-		
+		this.keyCodes = keys;
       	box.type = b2Body.b2_dynamicBody;
       	box.allowSleep = false;
       	this.playerBody = null;
@@ -16,20 +16,21 @@ var Player = (function (){
 
         box.position.x = Math.random() * 25;
         box.position.y = Math.random() * 10;
-		
+		this.pad = new GamePad();
+		this.pad.Connect(); 
  		this.currentVolicty = null;
  		this.playerBody = Physics.world.CreateBody(box);
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
 		this.maxJump = 60;
-		this.maxJump = 30;
+		this.minJump = 30;
 		this.jump = 0;
 
 		this.targetDirection = this.playerBody.GetPosition().Copy();
 		this.targetDirection.Multiply(5);
 
- 		this.jumpnow = false;
+ 		
  		this.cannonBalls = new Array();
  		this.cannonBalls[0] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
 		this.cannonBalls[1] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
@@ -41,22 +42,35 @@ var Player = (function (){
 	{
 		this.currentVolicty = this.playerBody.GetLinearVelocity();
 		var pos = this.playerBody.GetPosition();
-	
+		this.pad.Connect();
+		if(this.pad.connected == true)
+			this.pad.update();
 
-		 if(keyboard.isKeyDown(68))
+
+		 if(keyboard.isKeyDown(this.keyCodes[0]) || this.pad.buttonPressed(15) || this.pad.controllAxis(0) > 0.5)
 		 {
 		 	this.currentVolicty.x = 5;
 		 }
-		 if(keyboard.isKeyDown(65))
+		 if(keyboard.isKeyDown(this.keyCodes[1]) || this.pad.buttonPressed(14) || this.pad.controllAxis(0) < 0 && this.pad.controllAxis(0) < -0.5 )
 		 {
 		 	this.currentVolicty.x = -5;
 		 }
-		 if(keyboard.isKeyDown(87))
+		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
 		 {
-		 	if(this.jump == 0)
+		 	if(this.jump == 0 && this.currentVolicty.y == 0)
+		 	{
 		 		this.jump = 30;
-
-		 	this.jump = this.jump + 2;
+		 	}
+		 	if(this.maxJump <= this.jump && this.currentVolicty.y == 0)
+		 	{
+		 		this.currentVolicty.y = this.jump;
+		 		this.jump = 0;
+		 	}
+		 	if(this.currentVolicty.y == 0)
+		 	{
+		 		this.jump = this.jump + 2;
+		 	}
+		 	
 		 }
 		 else if(this.jump != 0 && this.currentVolicty.y == 0)
 		 {
@@ -65,7 +79,7 @@ var Player = (function (){
 		 }
 
 		 // Enter to fire 
-		if(keyboard.isKeyDown(13)) { 
+		if(keyboard.isKeyDown(this.keyCodes[3])) { 
 			
 			var i = 0;
 			for(i; this.cannonBalls[i].active == true && i <  this.cannonBalls.length-1; i++) {	}
@@ -73,15 +87,15 @@ var Player = (function (){
 			if(this.cannonBalls[i].active == false) {
 
 					var r = this.fixDef1.shape.m_radius*10;
-					this.cannonBalls[i].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+					this.cannonBalls[i].fire(pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
 			}
 		}
 
-		if(keyboard.isKeyDown(190) || keyboard.isKeyDown(188)) {
+		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
 
-			if(keyboard.isKeyDown(190))
+			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
 			}
