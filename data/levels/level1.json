@@ -18,9 +18,9 @@
 
       {
          "type":"FloatingPlatform",
-         "x":800,
-         "y":500,
-         "width":100,
+         "x":100,
+         "y":800,
+         "width":600,
          "height":10
       }
    ]

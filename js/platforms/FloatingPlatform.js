@@ -6,7 +6,6 @@ var FloatingPlatform = (function() {
 
 	function FloatingPlatform(x,y,width,height)
 	{
-
 		this.body; //Reference to body
 		this.fixture; // refernce to fixture
 
