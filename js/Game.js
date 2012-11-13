@@ -19,7 +19,7 @@ var Game = (function () {
         this.level = new Level('data/levels/level1.json');
 		this.level.import(level2JSON);
 		
-		//this.seeSaw = new SeeSaw( 550, 400, 150, 5 );
+		//this.seeSaw = new SeeSaw( 550, 400, 110, 5 );
     }
 
     Game.prototype.update = function () {
