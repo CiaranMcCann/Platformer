@@ -8,7 +8,9 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
 	b2MassData = Box2D.Collision.Shapes.b2MassData,
 	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
 	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
-	b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+	b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+	b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef,
+	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint;
 
 var Physics;
 (function (Physics) {
@@ -63,35 +65,8 @@ var Physics;
 		  bodyDef.position.x = 0;
 		  bodyDef.position.y = bounds*-1/Physics.worldScale;
 		  Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
-
-
-      var fixDef = new b2FixtureDef;
-      fixDef.density = 1.0;
-      fixDef.friction = 1.0;
-      fixDef.restitution = 0.0;
-      fixDef.shape = new b2PolygonShape;
-
-        //create some objects
-      var bodyDef = new b2BodyDef;
-      bodyDef.type = b2Body.b2_dynamicBody;
-      for (var i = 0; i < 30; ++i) {
-        if (Math.random() > 0.5) {
-          fixDef.shape = new b2PolygonShape;
-          fixDef.shape.SetAsBox(
-          Math.random() + 0.1 //half width
-          ,
-          Math.random() + 0.1 //half height
-          );
-        } else {
-          fixDef.shape = new b2CircleShape(
-          Math.random() + 0.1 //radius
-          );
-        }
-        bodyDef.position.x = Math.random() * 25;
-        bodyDef.position.y = Math.random() * 10;
-        Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
     }
-}
+
 
     Physics.init = init;
     function addContactListener(func) {
