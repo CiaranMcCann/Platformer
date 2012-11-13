@@ -21,10 +21,6 @@ var SeeSaw = ( function () {
 	this._pivotRadius;															// The radius of the Pivot of the See Saw.
 	this._pivotBody;															// The Physical Body of the Pivot of the See Saw.
 	this._pivotBodyDef;															// The Phsyical Body Definition of the Pivot of the See Saw.
-	this.budyDef;																//
-	this.budyFixDef;															// These are for the test cube falling on th see saw.
-	this.budyDef;																//
-
 	
 	// Name: See Saw
 	// Brief: This is the Constructor of the Class.
@@ -100,22 +96,7 @@ var SeeSaw = ( function () {
 		// Enable the limit for the See Saw, so it doesn't spin out of control.
 		this._revoluteJoint.EnableLimit(true);
 		// Setting the limit in Radians for the max angle it can rotate.
-		this._revoluteJoint.SetLimits(0, 0.6108);
-
-		
-		this.budyDef = new b2BodyDef; 										// 
-		this.budyDef.type = b2Body.b2_dynamicBody; 							// 
-		this.budyDef.position.Set(Physics.pixelToMeters(500)				// Code fot creating the Test
-		, Physics.pixelToMeters(10));										// Cube falling from the top.
-		this.budyFixDef = new b2FixtureDef; 								// Can be deleted if the 	
-		this.budyFixDef.density = 10.0; 									// Code turns out ok.
-		this.budyFixDef.friction = 0.4; 									// 
-		this.budyFixDef.restitution = 0.03; 								// 
-		this.budyFixDef.shape = new b2PolygonShape; 						// 
-		this.budyFixDef.shape.SetAsBox(Physics.pixelToMeters(10), 			// 
-		Physics.pixelToMeters(10));											//
-		this.budy = Physics.world.CreateBody(this.budyDef); 				// 
-		this.budy = this.budy.CreateFixture(this.budyFixDef).GetBody();     // 
+		this._revoluteJoint.SetLimits(-0.6108, 0.6108);
 		
 	}; // End Function SeeSaw().
 	
