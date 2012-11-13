@@ -34,8 +34,9 @@ var Player = (function (){
 		this.targetDirection = this.playerBody.GetPosition().Copy();
 		this.targetDirection.Multiply(5);
 
+
  		this.jumpnow = false;
- 		
+
  		this.cannonBalls = new Array();
 		this.maxBalls = 20;
 		this.curBalls = 0;
@@ -85,6 +86,8 @@ var Player = (function (){
 				var r = this.fixDef1.shape.m_radius*10;
 				this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
 				this.curBalls++;
+
+
 			}
 			else if(this.curBalls >= this.maxBalls) {
 				// Re use old cannon ball
@@ -130,15 +133,15 @@ var Player = (function (){
 			var s = Math.sin(angle*(Math.PI/180));
 			var c = Math.cos(angle*(Math.PI/180));
 			// translate point back to origin:
-			this.targetDirection.x -= pos.x;
-			this.targetDirection.y -= pos.y;
+			this.targetDirection.x -= 0;
+			this.targetDirection.y -= 0;
 
 			// rotate point
 			var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
 			var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
 			// translate point back:
-			this.targetDirection.x = xnew + pos.x;
-			this.targetDirection.y = ynew + pos.y;
+			this.targetDirection.x = xnew + 0;
+			this.targetDirection.y = ynew + 0;
 		}
 
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
@@ -146,6 +149,7 @@ var Player = (function (){
 		for(var i = 0; i < this.curBalls; i++) {
 
 			this.cannonBalls[i].timeAlive++;
+
 		}
 	};
 
@@ -168,9 +172,9 @@ var Player = (function (){
 		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
 		ctx.fill();
 
-		ctx.fillStyle = "rgb(0, 155, 0)";
+		/*ctx.fillStyle = "rgb(0, 155, 0)";
 		ctx.fillRect( Physics.metersToPixels(pos.x)-5, Physics.metersToPixels(pos.y)-5, 10, 10);
-		ctx.fill();
+		ctx.fill();*/
 	};
 
 	return Player;

@@ -13,19 +13,17 @@ var Game = (function () {
        
         Physics.init(this.canvas);  
         this.playerOne = new Player(10,10, Physics.PLAYER_ONE, Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO);  
-		
-
     }
 
     Game.prototype.update = function () {
       
       //update code ...this.canvas
       this.playerOne.update();
-	 
     };
 
     Game.prototype.draw = function () {
       this.playerOne.Draw(this.canvasContext);
+     
       //draw code ...
 
       /*var img = AssetManager.images["placeHolderImage"]; // Get my image from the asset manager
