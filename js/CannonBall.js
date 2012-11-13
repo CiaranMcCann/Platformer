@@ -6,7 +6,7 @@ var CannonBall = (function () {
 		var fixDef = new b2FixtureDef();	
 	    var bodyDef = new b2BodyDef();	
 		
-		fixDef.density = 1.0; 
+		fixDef.density = 0.5; 
 		fixDef.friction = 0.5; 
 		fixDef.restitution = 0.2;
 		
@@ -40,6 +40,19 @@ var CannonBall = (function () {
 		
 		this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
 	};
+
+	CannonBall.prototype.draw = function(ctx) {
+
+		var pos = this.physicsBody.GetPosition();
+
+		ctx.save()
+
+        ctx.translate( Physics.metersToPixels(pos.x), Physics.metersToPixels(pos.y) )
+        ctx.rotate(this.physicsBody.GetAngle())
+        ctx.drawImage(AssetManager.images["cannonBall"], -10, -10, 20, 20)
+
+        ctx.restore()
+}
 	
 	return CannonBall;
 	

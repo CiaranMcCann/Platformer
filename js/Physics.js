@@ -12,6 +12,7 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
   b2FilterData = Box2D.Dynamics.b2FilterData;
 	b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
 	b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef,
+  b2Transform = Box2D.Common.Math.b2Transform,
 	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint;
 
 var Physics;
