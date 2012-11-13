@@ -16,35 +16,15 @@ var Game = (function () {
 
         // Creating the level
         this.level = new Level('data/levels/level1.json');
-		
-		//this.seeSaw = new SeeSaw( 550, 400, 150, 5 );
-        Physics.init(this.canvas);
-        this.Level3 = new Level3();
-        this.Level3.add(new BreakableBody(100,500,100,100));
     }
 
-    Game.prototype.update = function () {
-      
+    Game.prototype.update = function () {     
       //update code ...this.canvas
-      this.playerOne.update();
-	 
-    Game.prototype.update = function () 
-    {
-        
+      this.playerOne.update();     
     };
 
     Game.prototype.draw = function () {
       this.playerOne.Draw(this.canvasContext);
-      //draw code ...
-
-      /*var img = AssetManager.images["placeHolderImage"]; // Get my image from the asset manager
-
-      this.canvasContext.drawImage(
-        img,
-        this.canvas.width/2 - img.width/2,
-        this.canvas.height/2 - img.height/2
-      )*/
-
     };
 
     Game.prototype.step = function () {

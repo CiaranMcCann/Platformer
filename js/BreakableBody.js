@@ -7,9 +7,7 @@
 
     function BreakableBody(posX,posY,width,height)
     {
-            
-
-
+ 
             posX =  Physics.pixelToMeters(posX);
             posY =  Physics.pixelToMeters(posY);
             var fixDef = new b2FixtureDef;
@@ -64,24 +62,3 @@
     }
     return BreakableBody;
 })();
-
-    // function BreakableBody(posX, posY, width, height) 
-    // {
-    //     this.position  = new b2Vec2(posX,posY);
-    //     this.width = width;
-    //     this.height = height;
-        
-    //     var bodyDef = new b2BodyDef;
-    //     bodyDef.type = b2Body.b2_staticBody;
-    //     var fixDef = new b2FixtureDef;
-    //     fixDef.density = 1.0;
-    //     fixDef.friction = 1.0;
-    //     fixDef.restitution = 0.0;
-    //     fixDef.shape = new b2PolygonShape;
-
-    //     fixDef.shape.SetAsBox(Physics.pixelToMeters(width / 2), Physics.pixelToMeters(height / 2));
-    //     bodyDef.position.x = Physics.pixelToMeters(this.position.x);
-    //     bodyDef.position.y = Physics.pixelToMeters(this.position.y);
-    //     this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
-    //     this.body = this.fixture.GetBody();
-    // }
