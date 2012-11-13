@@ -6,7 +6,9 @@ var AssetManager;
     // you can then acess the image by AssetManager.images["placeHolderImage"]
     // no need for the full url or the extenision
     var imagesToLoad = [
-       'data/images/placeHolderImage.png',
+       'data/images/cannonBall.png',
+       'data/images/player.png',
+       'data/images/cannon.png',
     ];
 
     AssetManager.images = [];
