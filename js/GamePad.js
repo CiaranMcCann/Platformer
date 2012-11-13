@@ -49,7 +49,7 @@ var GamePad = (function(){
   	GamePad.prototype.controllAxis = function(axisId) {
   		
   		if(this.connected != true)
-			return 0;
+			return false;
 
 
 		 if (typeof this.pad.axes[axisId] != 'undefined') {
@@ -57,7 +57,7 @@ var GamePad = (function(){
 			return this.pad.axes[axisId];
 		}
 		
-  		return 0;
+  		return false;
   	};
 
 

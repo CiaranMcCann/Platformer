@@ -23,8 +23,8 @@ var Player = (function (){
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
-		this.maxJump = 60;
-		this.minJump = 30;
+		this.maxJump = 12;
+		this.minJump = 4;
 		this.jump = 0;
 
 		this.targetDirection = this.playerBody.GetPosition().Copy();
@@ -55,26 +55,32 @@ var Player = (function (){
 		 {
 		 	this.currentVolicty.x = -5;
 		 }
+		 this.playerBody.SetLinearVelocity(this.currentVolicty);
 		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
 		 {
+		 	
 		 	if(this.jump == 0 && this.currentVolicty.y == 0)
 		 	{
-		 		this.jump = 30;
+		 		this.jump = this.minJump;
 		 	}
 		 	if(this.maxJump <= this.jump && this.currentVolicty.y == 0)
 		 	{
-		 		this.currentVolicty.y = this.jump;
-		 		this.jump = 0;
+		 		var point = new b2Vec2(0,0);
+		 		var force = new b2Vec2(0,-this.jump);
+			 	this.playerBody.ApplyImpulse(force,point);
+			 	this.jump = 0;
 		 	}
-		 	if(this.currentVolicty.y == 0)
+		 	else if(this.currentVolicty.y == 0)
 		 	{
-		 		this.jump = this.jump + 2;
+		 		this.jump = this.jump + 1;
 		 	}
 		 	
 		 }
 		 else if(this.jump != 0 && this.currentVolicty.y == 0)
 		 {
-		 	this.currentVolicty.y = this.jump;
+		 	var point = new b2Vec2(0,0);
+		 	var force = new b2Vec2(0,-this.jump);
+			 this.playerBody.ApplyImpulse(force,point);
 		 	this.jump = 0;
 		 }
 
@@ -119,7 +125,7 @@ var Player = (function (){
 			this.targetDirection.y = ynew + pos.y;
 		}
 
-		this.playerBody.SetLinearVelocity(this.currentVolicty);
+		
 	};
 
 	Player.prototype.jump = function()
