@@ -19,11 +19,8 @@ var Graphics;
     function createCanvas(name) {
         var canvas = document.createElement('canvas');
         canvas.id = name;
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.position = "absolute";
-        canvas.style.left = "0px";
-        canvas.style.top = "0px";
+        canvas.width = 1024;
+        canvas.height = 768;
         window.document.body.appendChild(canvas);
         window.onload = window.onresize = function () {
         };

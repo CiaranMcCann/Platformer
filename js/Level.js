@@ -9,8 +9,19 @@ var Level = (function(){
 		//Ajax request to load map
 		var _this = this;
 		$.getJSON(levelfile, function(data) {
+			_this.import(data);	
+			Logger.log("Level from " + levelfile + " was loaded sucessfully");		
+		});
+	}
 
-			$.each(data, function(key, val) {
+	Level.prototype.add = function(enity) {
+		this.levelEnities.push(enity);
+		Logger.debug(enity);
+	};
+
+	Level.prototype.import = function(data) {
+		var _this = this;
+		$.each(data, function(key, val) {
     			
     			//Loop over the JSON data and do the EVIL work
 				for( var obj in val )
@@ -42,12 +53,6 @@ var Level = (function(){
   			});
 
 			Logger.debug(_this.levelEnities);
-			Logger.log("Level from " + levelfile + " was loaded sucessfully");
-		});
-	}
-
-	Level.prototype.add = function(enity) {
-		this.levelEnities.push(enity);
 	};
 
 	Level.prototype.update = function() {
