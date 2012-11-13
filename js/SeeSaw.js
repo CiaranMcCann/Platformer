@@ -100,16 +100,17 @@ var SeeSaw = ( function () {
 		this._revoluteJoint.EnableLimit(true);
 		// Setting the limit in Radians for the max angle it can rotate.
 		this._revoluteJoint.SetLimits(-0.6108, 0.6108);
-		// Creating a new blank Image.
-		this._image = new Image();
-		// Setting the source of the image.
-		this._image.src = AssetManager.images["seesaw"];
+
 		// Setting the Width of the Sprite.
 		this._imageWidth = 50;
 		// Setting the Height of the Sprite.
 		this._imageHeight = 30;
 		
-	}; // End Function SeeSaw().
+	}; 
+
+	SeeSaw.prototype.draw = function(ctx) {
+		// ctx.drawImage(AssetManager.images["seesaw"],x,y,w,h)
+	};
 	
     return SeeSaw;
 } )();
