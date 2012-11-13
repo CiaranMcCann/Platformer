@@ -41,6 +41,8 @@ var Player = (function (){
 		this.maxBalls = 20;
 		this.curBalls = 0;
 		this.triggerDown = false;
+
+		this.manualBalls = new Array();
 	}
 
 	Player.prototype.update = function()
@@ -70,7 +72,7 @@ var Player = (function (){
 		 	this.jump = 0;
 		 }
 
-		 // Enter to fire 
+		// Enter to fire 
 		if(keyboard.isKeyDown(13)) { 
 			
 			if(this.triggerDown == false) {
@@ -81,36 +83,31 @@ var Player = (function (){
 		else if(this.triggerDown == true) {
 
 			if(this.curBalls < this.maxBalls) {
+				
 				// Create and fire new cannon ball
-				this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLATFORM);
-				var r = this.fixDef1.shape.m_radius*10;
-				this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-				this.curBalls++;
-
-
+				this.FireCannon(pos);
 			}
 			else if(this.curBalls >= this.maxBalls) {
-				// Re use old cannon ball
+
+				// Get index of longest living ball
 				var index = 0;
 				var lifeTime = 0;
-				// Get index of longest living ball
 				for(var i = 0; i < this.curBalls; i++) {
 					if(this.cannonBalls[i].timeAlive > lifeTime) {
 
-						index = i;
 						lifeTime = this.cannonBalls[i].timeAlive;
+						index = i;				
 					}
 				}
 
 				// Delete longest living ball
 				Physics.world.DestroyBody(this.cannonBalls[index].physicsBody);
-				this.cannonBalls.splice(index,1);
+				this.cannonBalls.splice(index, 1);
+				this.manualBalls.splice(index, 1);
 				this.curBalls--;
+
 				// Create and fire new cannon ball
-				this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLATFORM);
-				var r = this.fixDef1.shape.m_radius*10;
-				this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-				this.curBalls++;
+				this.FireCannon(pos);
 			}
 
 			this.triggerDown = false;
@@ -149,7 +146,6 @@ var Player = (function (){
 		for(var i = 0; i < this.curBalls; i++) {
 
 			this.cannonBalls[i].timeAlive++;
-
 		}
 	};
 
@@ -168,6 +164,11 @@ var Player = (function (){
 		targetDir.Normalize();
 		targetDir.Add(pos);
 
+		for(var i = 0; i < this.curBalls; i++) {
+
+			this.manualBalls[i].update(0.1, ctx);
+		}
+
 		ctx.fillStyle = "rgb(155, 0, 0)";
 		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
 		ctx.fill();
@@ -175,6 +176,16 @@ var Player = (function (){
 		/*ctx.fillStyle = "rgb(0, 155, 0)";
 		ctx.fillRect( Physics.metersToPixels(pos.x)-5, Physics.metersToPixels(pos.y)-5, 10, 10);
 		ctx.fill();*/
+	};
+
+	Player.prototype.FireCannon = function(pos) 
+	{
+		// Create and fire new cannon ball
+		this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLATFORM);
+		var r = this.fixDef1.shape.m_radius*10;
+		this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+		this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
+		this.curBalls++;
 	};
 
 	return Player;

@@ -12,7 +12,7 @@ var CannonBall = (function () {
 		
 		fixDef.shape= new b2CircleShape(0.3);		
 		bodyDef.type = b2Body.b2_dynamicBody;
-		bodyDef.position.Set(xPos/30, yPos/30);
+		bodyDef.position.Set(xPos, yPos);
 		bodyDef.isBullet = false;
 		this.physicsBody = pB2dWorld.CreateBody(bodyDef);
 		this.physicsBody.CreateFixture(fixDef);
@@ -38,10 +38,7 @@ var CannonBall = (function () {
 		this.direction.Normalize();
 		this.direction = new b2Vec2(this.direction.x*200,this.direction.y*200);
 		
-		if(this.active == false) {
-			//this.active = true;
-			this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
-		}
+		this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
 	};
 	
 	return CannonBall;

@@ -17,10 +17,9 @@ var ManualPhysicsBall = (function () {
 		//this.acc.y += -(this.mass)*0.05*0.05*this.velocity.y*this.velocity.y;
 
 		this.position.x += this.velocity.x*incTime + (0.5 * this.acc.x * incTime * incTime);
-		this.position.y += this.velocity.y*incTime + (0.5 * (this.acc.y*this.mass) * incTime * incTime);
+		this.position.y += this.velocity.y*incTime + (0.5 * this.acc.y * incTime * incTime);
 		this.velocity.x += this.acc.x*incTime;
 		this.velocity.y += this.acc.y*incTime;
-
 
 	  	cxt.beginPath();
 	    cxt.arc(this.position.x, this.position.y, 10, 0, 2 * Math.PI, false);
