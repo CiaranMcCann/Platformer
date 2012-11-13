@@ -45,7 +45,7 @@ var Player = (function (){
 		this.triggerDown = false;
 
 		this.direction = 1;
-		this.playerBody.SetUserData( "player"); //Give it a unqine name
+		//this.playerBody.SetUserData( "player"); //Give it a unqine name
 	}
 
 	Player.prototype.update = function()

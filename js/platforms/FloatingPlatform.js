@@ -31,9 +31,10 @@ var FloatingPlatform = (function() {
 		Physics.addContactListener(function(contact){
             
             //check if the player and this platform are colliding
-            var isPlayerColliding = Physics.isObjectColliding("player",_this.body.GetUserData(), contact);
+            var isPlayer1Colliding = Physics.isObjectColliding("player1",_this.body.GetUserData(), contact);
+            var isPlayer2Colliding = Physics.isObjectColliding("player2",_this.body.GetUserData(), contact);
 
-            if(isPlayerColliding)
+            if(isPlayer1Colliding || isPlayer2Colliding )
             {
             	_this.body.SetLinearVelocity(new b2Vec2(1.1,0));
             	//_this.body.ApplyImpulse(new b2Vec2(200.5,0),_this.body.GetPosition()); 

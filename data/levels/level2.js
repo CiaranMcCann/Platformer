@@ -22,7 +22,7 @@ var level2JSON = {
          "height":360
       },
 	   {
-        "type":"NormalPlatform",
+        "type":"FloatingPlatform",
          "x":220,
          "y":375,
          "width":140,
