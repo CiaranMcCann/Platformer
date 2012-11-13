@@ -1,6 +1,6 @@
 var Player = (function (){
 	
-	function Player(x,y) {
+	function Player(x, y, catagoryBits, maskBits) {
 
 		var box = new b2BodyDef;
 		
@@ -8,19 +8,24 @@ var Player = (function (){
       	box.allowSleep = false;
       	this.playerBody = null;
 		this.fixDef1 = new b2FixtureDef();
+
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-
         this.fixDef1.shape.SetAsBox(0.5,0.5);
 
         box.position.x = Math.random() * 25;
         box.position.y = Math.random() * 10;
-		
  		this.currentVolicty = null;
  		this.playerBody = Physics.world.CreateBody(box);
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
+
+		var setFilter = new b2FilterData();
+		setFilter.categoryBits = catagoryBits;
+		setFilter.groupIndex = 0;
+		setFilter.maskBits = maskBits;
+		this.playerBody.GetFixtureList().SetFilterData(setFilter);
 
 		this.maxJump = 60;
 		this.maxJump = 30;
@@ -30,11 +35,11 @@ var Player = (function (){
 		this.targetDirection.Multiply(5);
 
  		this.jumpnow = false;
+ 		
  		this.cannonBalls = new Array();
- 		this.cannonBalls[0] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
-		this.cannonBalls[1] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
-		this.cannonBalls[2] = new CannonBall(Physics.world,  this.playerBody.GetPosition().x, this.playerBody.GetPosition().y);	
-
+		this.maxBalls = 20;
+		this.curBalls = 0;
+		this.triggerDown = false;
 	}
 
 	Player.prototype.update = function()
@@ -67,14 +72,45 @@ var Player = (function (){
 		 // Enter to fire 
 		if(keyboard.isKeyDown(13)) { 
 			
-			var i = 0;
-			for(i; this.cannonBalls[i].active == true && i <  this.cannonBalls.length-1; i++) {	}
-				
-			if(this.cannonBalls[i].active == false) {
+			if(this.triggerDown == false) {
 
-					var r = this.fixDef1.shape.m_radius*10;
-					this.cannonBalls[i].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+				this.triggerDown = true;
 			}
+		}
+		else if(this.triggerDown == true) {
+
+			if(this.curBalls < this.maxBalls) {
+				// Create and fire new cannon ball
+				this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLATFORM);
+				var r = this.fixDef1.shape.m_radius*10;
+				this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+				this.curBalls++;
+			}
+			else if(this.curBalls >= this.maxBalls) {
+				// Re use old cannon ball
+				var index = 0;
+				var lifeTime = 0;
+				// Get index of longest living ball
+				for(var i = 0; i < this.curBalls; i++) {
+					if(this.cannonBalls[i].timeAlive > lifeTime) {
+
+						index = i;
+						lifeTime = this.cannonBalls[i].timeAlive;
+					}
+				}
+
+				// Delete longest living ball
+				Physics.world.DestroyBody(this.cannonBalls[index].physicsBody);
+				this.cannonBalls.splice(index,1);
+				this.curBalls--;
+				// Create and fire new cannon ball
+				this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLATFORM);
+				var r = this.fixDef1.shape.m_radius*10;
+				this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+				this.curBalls++;
+			}
+
+			this.triggerDown = false;
 		}
 
 		if(keyboard.isKeyDown(190) || keyboard.isKeyDown(188)) {
@@ -106,6 +142,11 @@ var Player = (function (){
 		}
 
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
+
+		for(var i = 0; i < this.curBalls; i++) {
+
+			this.cannonBalls[i].timeAlive++;
+		}
 	};
 
 	Player.prototype.jump = function()
@@ -124,7 +165,7 @@ var Player = (function (){
 		targetDir.Add(pos);
 
 		ctx.fillStyle = "rgb(155, 0, 0)";
-		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 10,4);
+		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
 		ctx.fill();
 
 		ctx.fillStyle = "rgb(0, 155, 0)";

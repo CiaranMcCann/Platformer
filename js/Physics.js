@@ -9,7 +9,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
 	b2MassData = Box2D.Collision.Shapes.b2MassData,
 	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
 	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
-	b2DebugDraw = Box2D.Dynamics.b2DebugDraw;
+	b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
+  b2FilterData = Box2D.Dynamics.b2FilterData;
 
 var Physics;
 (function (Physics) {
@@ -17,6 +18,14 @@ var Physics;
     Physics.world;
     Physics.debugDraw;
     Physics.contactFunctionsList = [];
+
+    // CategoryBits and MaskBits for game entities
+    Physics.PLAYER_ONE        = 0x0001;
+    Physics.PLAYER_ONE_BALL   = 0x0002;
+    Physics.PLAYER_TWO        = 0x0004;
+    Physics.PLAYER_TWO_BALL   = 0x0008;
+    Physics.PLATFORM          = 0x0010;
+
     function init(canvas) {
         Physics.worldScale = 30;
         Physics.world = new b2World(new b2Vec2(0, 10), true);

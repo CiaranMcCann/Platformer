@@ -12,7 +12,7 @@ var Game = (function () {
 			
        
         Physics.init(this.canvas);  
-         this.playerOne = new Player(10,10);  
+        this.playerOne = new Player(10,10, Physics.PLAYER_ONE, Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO);  
 		
 
     }
