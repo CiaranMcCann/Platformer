@@ -7,7 +7,7 @@ var NormalPlatform = (function() {
 		this.fixture; // refernce to fixture
 
 		var bodyDef = new b2BodyDef;
-		bodyDef.type = b2Body.b2_kinematicBody;
+		bodyDef.type = b2Body.b2_staticBody;
 
 		var fixDef = new b2FixtureDef;
 		fixDef.density = 1.0;
@@ -23,6 +23,6 @@ var NormalPlatform = (function() {
 		this.body = this.fixture.GetBody();
 	}
 
-	return FloatingPlatform;
+	return NormalPlatform;
 
 })();
