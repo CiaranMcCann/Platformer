@@ -9,7 +9,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
 	b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
 	b2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
 	b2DebugDraw = Box2D.Dynamics.b2DebugDraw,
-	b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef;
+	b2RevoluteJointDef =  Box2D.Dynamics.Joints.b2RevoluteJointDef,
+	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint;
 
 var Physics;
 (function (Physics) {
