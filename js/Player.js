@@ -146,6 +146,7 @@ var Player = (function (){
 		for(var i = 0; i < this.curBalls; i++) {
 
 			this.cannonBalls[i].timeAlive++;
+			this.manualBalls[i].update(0.1);
 		}
 	};
 
@@ -164,10 +165,9 @@ var Player = (function (){
 		targetDir.Normalize();
 		targetDir.Add(pos);
 
-		for(var i = 0; i < this.curBalls; i++) {
-
-			this.manualBalls[i].update(0.1, ctx);
-		}
+		/*for(var i = 0; i < this.curBalls; i++) {
+			this.manualBalls[i].draw(ctx);
+		}*/
 
 		ctx.fillStyle = "rgb(155, 0, 0)";
 		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
