@@ -84,9 +84,6 @@ var Player = (function (){
 		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
 		 	var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
 
-		 	
-
-
 		 	if(isPlayerColliding)
 		 	{
 		 		_this.curHealth-=2;

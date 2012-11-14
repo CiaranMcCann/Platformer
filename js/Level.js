@@ -7,11 +7,12 @@ var Level = (function(){
 		this.levelEnities = []; // holds all the enities
 
 		//Ajax request to load map
-		var _this = this;
-		$.getJSON(levelfile, function(data) {
-			_this.loadUp(data);	
-			Logger.log("Level from " + levelfile + " was loaded sucessfully");		
-		});
+		//var _this = this;
+		// Due to lab422 poxy problem can't do ajax load
+		// $.getJSON(levelfile, function(data) {
+		// 	_this.loadUp(data);	
+		// 	Logger.log("Level from " + levelfile + " was loaded sucessfully");		
+		// });
 	}
 
 	Level.prototype.add = function(enity) {
@@ -30,16 +31,12 @@ var Level = (function(){
 		}
 	};
 
-	Level.prototype.destory = function() {
-		for(var enity in this.levelEnities)
-		{
-			Physics.world.DestroyBody(this.levelEnities[enity].getBody());
-		}
+	Level.prototype.loadUp = function(data,canvas) {
 		this.levelEnities = [];
-	};
+		// for some reason deleting all bodies cases errors
+		// I belive its due to locking so when loading up level re-init the physics world
+		Physics.init(canvas)
 
-	Level.prototype.loadUp = function(data) {
-		this.destory();
 		var _this = this;
 		$.each(data, function(key, val) {
     			

@@ -17,6 +17,12 @@ canvas{
      width: 100%; 
      height: 100%; 
      z-index: 1;
+     /* Safari and Chrome */
+display:-webkit-box;
+-webkit-box-orient:horizontal;
+-webkit-box-pack:center;
+-webkit-box-align:center;
+color: white;
 
  }
 
