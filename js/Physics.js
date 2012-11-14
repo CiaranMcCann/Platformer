@@ -69,7 +69,8 @@ var Physics;
       setFilter.categoryBits = Physics.PLATFORM;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
-      physicsBody.GetFixtureList().SetFilterData(setFilter);   
+      physicsBody.GetFixtureList().SetFilterData(setFilter);  
+      physicsBody.SetUserData("boundary"); 
 
 		  //left wall
 		  fixDef.shape.SetAsBox(bounds / Physics.worldScale, canvas.height / Physics.worldScale);
@@ -84,6 +85,7 @@ var Physics;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
       physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.SetUserData("boundary");
 
 		  //right wall
 		  fixDef.shape.SetAsBox(0, canvas.height / Physics.worldScale);
@@ -98,6 +100,7 @@ var Physics;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
       physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.SetUserData("boundary");
 
 		   //top wall
 		  fixDef.shape.SetAsBox(canvas.width / Physics.worldScale, bounds / Physics.worldScale);
@@ -112,6 +115,7 @@ var Physics;
       setFilter.groupIndex = 0;
       setFilter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO | Physics.PLAYER_TWO_BALL;
       physicsBody.GetFixtureList().SetFilterData(setFilter);
+      physicsBody.SetUserData("boundary");
     }
 
 

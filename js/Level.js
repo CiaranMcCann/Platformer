@@ -19,6 +19,17 @@ var Level = (function(){
 		Logger.debug(enity);
 	};
 
+	Level.prototype.getEntity = function(userData) {
+		for( var entity in this.levelEnities)
+		{
+			// NOTICE : this will only work for objects  with one body
+			if(this.levelEnities[entity].getBody().GetUserData() == userData)
+			{
+				return this.levelEnities[entity];
+			}
+		}
+	};
+
 	Level.prototype.destory = function() {
 		for(var enity in this.levelEnities)
 		{
