@@ -60,6 +60,11 @@ var FloatingPlatform = (function() {
         d = p2.Copy();
         joint2.length = d.Length();
         Physics.world.CreateJoint(joint2);
+        var filter = new b2FilterData();
+		filter.categoryBits = Physics.PLATFORM;
+		filter.groupIndex = 0;
+		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
+		this.body.GetFixtureList().SetFilterData(filter);
 	}
 
 	FloatingPlatform.prototype.getBody = function() {

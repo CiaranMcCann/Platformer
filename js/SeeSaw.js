@@ -105,6 +105,11 @@ var SeeSaw = ( function () {
 		this._imageWidth = 50;
 		// Setting the Height of the Sprite.
 		this._imageHeight = 30;
+		var filter = new b2FilterData();
+		filter.categoryBits = Physics.PLATFORM;
+		filter.groupIndex = 0;
+		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
+		this._body.GetFixtureList().SetFilterData(filter);
 		
 	}; 
 

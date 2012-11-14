@@ -28,7 +28,7 @@ var Player = (function (){
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-        this.fixDef1.shape.SetAsBox(0.5,0.5);
+        this.fixDef1.shape.SetAsBox(0.5,0.5 , new b2Vec2(20,0), 0 );
 
         box.position.x = Physics.pixelToMeters(x);
         box.position.y = Physics.pixelToMeters(y);
@@ -41,26 +41,76 @@ var Player = (function (){
 
 		this.maxJump = 12;
 		this.minJump = 4;
+
+		var fixture = new b2Fixture();
+		fixture = this.playerBody.GetFixtureList();
 		var filter = new b2FilterData();
 		filter.categoryBits = catagoryBits;
 		filter.groupIndex = 0;
 		filter.maskBits = maskBits;
-		this.playerBody.GetFixtureList().SetFilterData(filter);
-
+		fixture.SetFilterData(filter);
+		fixture = fixture.GetNext();
+		fixture.SetFilterData(filter);
+		this.gotoAngle = 0;
 		this.jump = 0;
 
 		this.targetDirection = new b2Vec2(this.playerBody.GetPosition().Copy().x+50, this.playerBody.GetPosition().Copy().y);
 		this.targetDirection.Multiply(5);
 		this.targetAngle = 0;
-
+		var axisX = -this.pad.controllAxis(2);
+		var axisY = this.pad.controllAxis(3);
+		this.useKeyBoard = true;			
+		this.currentangalur  = 0;//Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI));
  		this.cannonBalls = new Array();
  		this.manualBalls = new Array();
 		this.maxBalls = 30;
 		this.curBalls = 0;
 		this.triggerDown = false;
 
+		this.maxHealth = 100;
+		this.curHealth = 100;	
+		this.healthBarWidth = 200;	
+
 		this.direction = 1;
+		this.dirLastFrame = 1;
 		//this.playerBody.SetUserData( "player"); //Give it a unqine name
+		this.drawManualBalls = false;
+		this.toggleManual = false;
+
+		var _this = this;
+		 Physics.addContactListener(function(contact){
+
+		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
+		 	var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
+
+		 	if(isPlayerColliding)
+		 	{
+		 		_this.curHealth-=2;
+		 	}
+
+		 	if(p1Hit)
+		 	{
+		 		if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player1"){
+	 				if(_this.curHealth>0){
+						_this.curHealth-=2;
+					}
+	 			}
+		 	}
+
+		 	var p2Hit = Physics.isObjectColliding("player2", "p1Ball", contact);
+
+		 	if(p2Hit)
+		 	{
+	 			
+	 			if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2"){
+	 				if(_this.curHealth>0){
+						_this.curHealth-=2;
+					}
+	 			}
+		 	}
+
+		 })	
+
 	}
 
 	Player.prototype.update = function()
@@ -69,18 +119,56 @@ var Player = (function (){
 		var pos = this.playerBody.GetPosition();
 		this.pad.Connect();
 		if(this.pad.connected == true)
+		{
 			this.pad.update();
+			this.useKeyBoard = false;
+		}
+			
 
 
 		 if(keyboard.isKeyDown(this.keyCodes[0]) || this.pad.buttonPressed(15) || this.pad.controllAxis(0) > 0.5)
 		 {
 		 	this.currentVolicty.x = 5;
 		 	this.direction = 1;
+
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard == true) {
+
+		 		
+		 		var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
+				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
+				// translate point back to origin:
+				this.targetDirection.x -= 0;
+				this.targetDirection.y -= 0;
+
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+				this.targetAngle = 180 - this.targetAngle;
+		 	}
 		 }
 		 if(keyboard.isKeyDown(this.keyCodes[1]) || this.pad.buttonPressed(14) || this.pad.controllAxis(0) < 0 && this.pad.controllAxis(0) < -0.5 )
 		 {
 		 	this.currentVolicty.x = -5;
 		 	this.direction = -1;
+
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard) {
+
+				
+				var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
+				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
+				// translate point back to origin:
+
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+				this.targetAngle = 180 - this.targetAngle;
+		 	}
 		 }
 		 this.playerBody.SetLinearVelocity(this.currentVolicty);
 		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
@@ -107,12 +195,12 @@ var Player = (function (){
 		 {
 		 	var point = new b2Vec2(0,0);
 		 	var force = new b2Vec2(0,-this.jump);
-			 this.playerBody.ApplyImpulse(force,point);
+			this.playerBody.ApplyImpulse(force,point);
 		 	this.jump = 0;
 		 }
 
 		// Enter to fire 
-		if(keyboard.isKeyDown(this.keyCodes[3])) { 
+		if(keyboard.isKeyDown(this.keyCodes[3]) || this.pad.buttonPressed(7)) { 
 			
 			if(this.triggerDown == false) {
 
@@ -151,44 +239,140 @@ var Player = (function (){
 
 			this.triggerDown = false;
 		}
+		if(this.pad.connected == true)
+		{
+			if(this.pad.controllAxis(2) != 0.5 || this.pad.controllAxis(3) >= 0.5)
+			{
+					var axisX = -this.pad.controllAxis(2);
+					var axisY = this.pad.controllAxis(3);
+					
 
+					this.targetAngle = Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI)) +90;
+
+					var angle = this.targetAngle -this.currentangalur;
+
+					
+					this.currentangalur = this.targetAngle;
+					var s = Math.sin(angle*(Math.PI/180));
+					var c = Math.cos(angle*(Math.PI/180));
+					// translate point back to origin:
+					this.targetDirection.x -= 0;
+					this.targetDirection.y -= 0;
+
+					// rotate point
+					var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+					var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+					// translate point back:
+					this.targetDirection.x = xnew + 0;
+					this.targetDirection.y = ynew + 0;
+
+			}
+
+		}
 		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
-
+			var rotate = false;
+			
+			
 			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
 				this.targetAngle++;
+
+				if(this.direction == 1){
+
+					if(this.targetAngle>90) {
+						this.targetAngle= 90;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
+				else {
+
+					if(this.targetAngle>270) {
+						this.targetAngle= 270;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
 			}
 			else
 			{
 			 	angle = -1;
 			 	this.targetAngle--;
-			}
-			
-			// Rotates target point around player pos
-			var s = Math.sin(angle*(Math.PI/180));
-			var c = Math.cos(angle*(Math.PI/180));
-			// translate point back to origin:
-			this.targetDirection.x -= 0;
-			this.targetDirection.y -= 0;
 
-			// rotate point
-			var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
-			var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
-			// translate point back:
-			this.targetDirection.x = xnew + 0;
-			this.targetDirection.y = ynew + 0;
+			 	if(this.direction == 1){
+
+				 	if(this.targetAngle<-90) {
+				 		this.targetAngle= -90;
+				 	}
+				 	else {
+				 		rotate = true;
+				 	}
+				}
+				else {
+
+					if(this.targetAngle<90) {
+						this.targetAngle= 90;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
+			}
+			if(rotate == true) {
+				// Rotates target point around player pos
+				var s = Math.sin(angle*(Math.PI/180));
+				var c = Math.cos(angle*(Math.PI/180));
+				// translate point back to origin:
+				this.targetDirection.x -= 0;
+				this.targetDirection.y -= 0;
+
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+			}
 		}
 
 		
+		this.playerBody.SetLinearVelocity(this.currentVolicty);
+
+		if(keyboard.isKeyDown(88)) {
+
+			if(this.toggleManual == false) {
+
+				this.toggleManual = true;
+			}
+
+			
+		}
+		else if(this.toggleManual == true) {
+
+			if(this.drawManualBalls == false) {
+				this.drawManualBalls = true;
+			}
+			else {
+				this.drawManualBalls = false;
+			}
+
+			this.toggleManual = false;
+		}
+
 
 		for(var i = 0; i < this.curBalls; i++) {
 
 			this.cannonBalls[i].timeAlive++;
 			this.manualBalls[i].update(0.1);
 		}
+
+		this.dirLastFrame = this.direction;
+			
 	};
 
 	Player.prototype.jump = function()
@@ -206,7 +390,10 @@ var Player = (function (){
 		targetDir.Add(pos);
 
 		for(var i = 0; i < this.curBalls; i++) {
-			//this.manualBalls[i].draw(ctx);
+			
+			if(this.drawManualBalls == true) {	
+				this.manualBalls[i].draw(ctx);
+			}
 
 			this.cannonBalls[i].draw(ctx);
 		}
@@ -220,7 +407,8 @@ var Player = (function (){
 			frame = 30;
 		}
 
-		ctx.drawImage(AssetManager.images["player"], frame, 0, 30, 39, Physics.metersToPixels(pos.x)-15, Physics.metersToPixels(pos.y)-30, 30, 45);
+		ctx.drawImage(AssetManager.images[this.playerBody.GetFixtureList().GetBody().GetUserData()], frame, 0, 30, 39, Physics.metersToPixels(pos.x)-15, Physics.metersToPixels(pos.y)-30, 30, 45);
+
 
 		ctx.save();
 
@@ -230,13 +418,35 @@ var Player = (function (){
 
         ctx.restore();
 
-		/*ctx.fillStyle = "rgb(155, 0, 0)";
-		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
-		ctx.fill();*/
+        var data = this.playerBody.GetFixtureList().GetBody().GetUserData();
+        if(data == "player1") {
 
-		/*ctx.fillStyle = "rgb(0, 155, 0)";
-		ctx.fillRect( Physics.metersToPixels(pos.x)-5, Physics.metersToPixels(pos.y)-5, 10, 10);
-		ctx.fill();*/
+        	ctx.fillStyle = "rgb(255, 0, 0)";
+            ctx.fillRect( 10 , 50, this.healthBarWidth, 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 255, 0)";
+            ctx.fillRect( 10 , 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.font="30px Arial";
+			ctx.fillText("Player 1", 10, 40);
+        }
+        else if(data == "player2") {
+
+			ctx.fillStyle = "rgb(255, 0, 0)";
+            ctx.fillRect( 810 , 50, this.healthBarWidth, 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 255, 0)";
+            ctx.fillRect( 810 + (this.maxHealth-this.curHealth)*2, 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.font="30px Arial";
+			ctx.fillText("Player 2", 900, 40);
+        }
 	};
 
 	Player.prototype.FireCannon = function(pos)
@@ -244,18 +454,18 @@ var Player = (function (){
 		// Create and fire new cannon ball
 		var data = this.playerBody.GetFixtureList().GetBody().GetUserData();
 		if(data == "player1") {
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p1Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);
 			this.curBalls++;
 		}
 		else if(data == "player2") {
 
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p2Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);
 			this.curBalls++;
 		}
 	};

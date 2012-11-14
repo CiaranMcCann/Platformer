@@ -1,7 +1,7 @@
 var NormalPlatform = (function() {
 	
 
-	function NormalPlatform(x,y,width,height)
+	function NormalPlatform(x,y,width,height,userData)
 	{
 		this.body; //Reference to body
 		this.fixture; // refernce to fixture
@@ -23,6 +23,13 @@ var NormalPlatform = (function() {
 		bodyDef.position.y =  Physics.pixelToMeters(y);
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
+
+		this.body.SetUserData(userData);
+		var filter = new b2FilterData();
+		filter.categoryBits = Physics.PLATFORM;
+		filter.groupIndex = 0;
+		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
+		this.body.GetFixtureList().SetFilterData(filter);
 	}
 
 	NormalPlatform.prototype.draw = function(ctx) {
