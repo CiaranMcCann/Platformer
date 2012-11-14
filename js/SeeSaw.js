@@ -112,6 +112,10 @@ var SeeSaw = ( function () {
 		// ctx.drawImage(AssetManager.images["seesaw"],x,y,w,h)
 	};
 
+	SeeSaw.prototype.getBody = function() {
+		return this._body;
+	};
+
 	SeeSaw.prototype.update = function() {
 		
 	};

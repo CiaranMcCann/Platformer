@@ -14,7 +14,8 @@ var Game = (function () {
      
         // Creating the level
         this.level = new Level('data/levels/level1.json'); //FIXME Proxy fucking this up
-		    this.level.import(level2JSON);		
+		    this.level.loadUp(level1JSON);
+        //this.level.loadUp(level2JSON);		
     }
 
     Game.prototype.update = function () {     

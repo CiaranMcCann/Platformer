@@ -31,6 +31,10 @@ var NormalPlatform = (function() {
 		// body...
 	};
 
+	NormalPlatform.prototype.getBody = function() {
+		return this.body;
+	};
+
 	return NormalPlatform;
 
 })();

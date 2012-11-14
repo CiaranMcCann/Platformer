@@ -260,5 +260,9 @@ var Player = (function (){
 		}
 	};
 
+	Player.prototype.getBody = function() {
+		return this.playerBody;
+	};
+
 	return Player;
 })();

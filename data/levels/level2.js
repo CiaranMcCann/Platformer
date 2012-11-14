@@ -1,5 +1,17 @@
 var level2JSON = {
    "levelEntites":[
+    {
+         "type":"Player",
+         "x":850,
+         "y":250,
+         "userData": "'player2'"
+      },
+             {
+         "type":"Player",
+         "x":140,
+         "y":100,
+         "userData": "'player1'"
+      },
       {
          "type":"NormalPlatform",
          "x":75,

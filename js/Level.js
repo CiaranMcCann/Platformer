@@ -9,7 +9,7 @@ var Level = (function(){
 		//Ajax request to load map
 		var _this = this;
 		$.getJSON(levelfile, function(data) {
-			_this.import(data);	
+			_this.loadUp(data);	
 			Logger.log("Level from " + levelfile + " was loaded sucessfully");		
 		});
 	}
@@ -19,7 +19,16 @@ var Level = (function(){
 		Logger.debug(enity);
 	};
 
-	Level.prototype.import = function(data) {
+	Level.prototype.destory = function() {
+		for(var enity in this.levelEnities)
+		{
+			Physics.world.DestroyBody(this.levelEnities[enity].getBody());
+		}
+		this.levelEnities = [];
+	};
+
+	Level.prototype.loadUp = function(data) {
+		this.destory();
 		var _this = this;
 		$.each(data, function(key, val) {
     			
