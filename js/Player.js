@@ -28,7 +28,7 @@ var Player = (function (){
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-        this.fixDef1.shape.SetAsBox(0.5,0.5);
+        this.fixDef1.shape.SetAsBox(0.5,0.5 , new b2Vec2(20,0), 0 );
 
         box.position.x = Physics.pixelToMeters(x);
         box.position.y = Physics.pixelToMeters(y);
@@ -46,13 +46,16 @@ var Player = (function (){
 		filter.groupIndex = 0;
 		filter.maskBits = maskBits;
 		this.playerBody.GetFixtureList().SetFilterData(filter);
-
+		this.gotoAngle = 0;
 		this.jump = 0;
 
 		this.targetDirection = new b2Vec2(this.playerBody.GetPosition().Copy().x+50, this.playerBody.GetPosition().Copy().y);
 		this.targetDirection.Multiply(5);
 		this.targetAngle = 0;
-
+		var axisX = this.pad.controllAxis(2);
+		var axisY = this.pad.controllAxis(3);
+					
+		this.currentangalur  = Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI));
  		this.cannonBalls = new Array();
  		this.manualBalls = new Array();
 		this.maxBalls = 30;
@@ -107,12 +110,12 @@ var Player = (function (){
 		 {
 		 	var point = new b2Vec2(0,0);
 		 	var force = new b2Vec2(0,-this.jump);
-			 this.playerBody.ApplyImpulse(force,point);
+			this.playerBody.ApplyImpulse(force,point);
 		 	this.jump = 0;
 		 }
 
 		// Enter to fire 
-		if(keyboard.isKeyDown(this.keyCodes[3])) { 
+		if(keyboard.isKeyDown(this.keyCodes[3]) || this.pad.buttonPressed(7)) { 
 			
 			if(this.triggerDown == false) {
 
@@ -151,11 +154,39 @@ var Player = (function (){
 
 			this.triggerDown = false;
 		}
+		if(this.pad.connected == true)
+		{
+			if(this.pad.controllAxis(2) != 0.5 || this.pad.controllAxis(3) >= 0.5)
+			{
+					var axisX = this.pad.controllAxis(2);
+					var axisY = this.pad.controllAxis(3);
+					
 
+					this.targetAngle = Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI));
+					var angle = this.targetAngle -this.currentangalur;
+					this.currentangalur = this.targetAngle;
+					var s = Math.sin(angle*(Math.PI/180));
+					var c = Math.cos(angle*(Math.PI/180));
+					// translate point back to origin:
+					this.targetDirection.x -= 0;
+					this.targetDirection.y -= 0;
+
+					// rotate point
+					var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+					var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+					// translate point back:
+					this.targetDirection.x = xnew + 0;
+					this.targetDirection.y = ynew + 0;
+
+			}
+
+		}
 		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
 
+			
+			
 			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
@@ -166,7 +197,6 @@ var Player = (function (){
 			 	angle = -1;
 			 	this.targetAngle--;
 			}
-			
 			// Rotates target point around player pos
 			var s = Math.sin(angle*(Math.PI/180));
 			var c = Math.cos(angle*(Math.PI/180));
@@ -246,7 +276,7 @@ var Player = (function (){
 		if(data == "player1") {
 			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
 			var r = this.fixDef1.shape.m_radius*10;
-			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
+			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x +10, this.targetDirection.y+10);
 			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
 			this.curBalls++;
 		}

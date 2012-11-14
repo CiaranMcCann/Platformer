@@ -3,7 +3,7 @@ var GamePad = (function(){
 	
 	function GamePad()
 	{
-		var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
+		//var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
 		this.connected = false;
 		this.pad = null;
 		this.num = 0;
@@ -12,7 +12,7 @@ var GamePad = (function(){
 	GamePad.prototype.Connect = function() {
 
 		try{
-			//navigator.webkitGetGamepads()
+			navigator.webkitGetGamepads()
 		}catch(e){
 			return true;
 		}
