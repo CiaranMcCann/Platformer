@@ -28,7 +28,7 @@ var Player = (function (){
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-        this.fixDef1.shape.SetAsBox(0.5,0.5);
+        this.fixDef1.shape.SetAsBox(0.5,0.5 , new b2Vec2(20,0), 0 );
 
         box.position.x = Physics.pixelToMeters(x);
         box.position.y = Physics.pixelToMeters(y);
@@ -39,8 +39,9 @@ var Player = (function (){
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
-		this.maxJump = 12;
-		this.minJump = 4;
+		
+		this.maxJump = 10;
+		this.minJump = 1;
 
 		var fixture = new b2Fixture();
 		fixture = this.playerBody.GetFixtureList();
@@ -51,13 +52,16 @@ var Player = (function (){
 		fixture.SetFilterData(filter);
 		fixture = fixture.GetNext();
 		fixture.SetFilterData(filter);
-
+		this.gotoAngle = 0;
 		this.jump = 0;
 
 		this.targetDirection = new b2Vec2(this.playerBody.GetPosition().Copy().x+50, this.playerBody.GetPosition().Copy().y);
 		this.targetDirection.Multiply(5);
 		this.targetAngle = 0;
-
+		var axisX = -this.pad.controllAxis(2);
+		var axisY = this.pad.controllAxis(3);
+		this.useKeyBoard = true;			
+		this.currentangalur  = 0;//Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI));
  		this.cannonBalls = new Array();
  		this.manualBalls = new Array();
 		this.maxBalls = 30;
@@ -78,6 +82,15 @@ var Player = (function (){
 		 Physics.addContactListener(function(contact){
 
 		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
+		 	var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
+
+		 	
+
+
+		 	if(isPlayerColliding)
+		 	{
+		 		_this.curHealth-=2;
+		 	}
 
 		 	if(p1Hit)
 		 	{
@@ -99,7 +112,31 @@ var Player = (function (){
 					}
 	 			}
 		 	}
-		 })	
+		 	var that = _this;
+		 	var checkAllowJump = function(){
+		 		that.allowJump = Physics.isObjectColliding("hurtbox",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("normal",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("floatingplatform",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+				that.allowJump = Physics.isObjectColliding("seesaw",that.playerBody.GetUserData(), contact);
+				if(that.allowJump == true){this.jump = 0; return 0};
+		 	}
+		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
+		 	{
+			 	checkAllowJump();
+			}
+
+
+		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player1")
+		 	{
+			 	checkAllowJump();
+			}
+
+		 })
+
+		this.allowJump = true;
 	}
 
 	Player.prototype.update = function()
@@ -108,15 +145,16 @@ var Player = (function (){
 		var pos = this.playerBody.GetPosition();
 		this.pad.Connect();
 		if(this.pad.connected == true)
+		{
 			this.pad.update();
-
-
+			this.useKeyBoard = false;
+		}
 		 if(keyboard.isKeyDown(this.keyCodes[0]) || this.pad.buttonPressed(15) || this.pad.controllAxis(0) > 0.5)
 		 {
 		 	this.currentVolicty.x = 5;
 		 	this.direction = 1;
 
-		 	if(this.dirLastFrame != this.direction) {
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard == true) {
 
 		 		
 		 		var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
@@ -139,14 +177,12 @@ var Player = (function (){
 		 	this.currentVolicty.x = -5;
 		 	this.direction = -1;
 
-		 	if(this.dirLastFrame != this.direction) {
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard) {
 
 				
 				var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
 				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
 				// translate point back to origin:
-				this.targetDirection.x -= 0;
-				this.targetDirection.y -= 0;
 
 				// rotate point
 				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
@@ -158,36 +194,13 @@ var Player = (function (){
 		 	}
 		 }
 		 this.playerBody.SetLinearVelocity(this.currentVolicty);
-		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
-		 {
-		 	
-		 	if(this.jump == 0 && this.currentVolicty.y == 0)
-		 	{
-		 		this.jump = this.minJump;
-		 	}
-		 	if(this.maxJump <= this.jump && this.currentVolicty.y == 0)
-		 	{
-		 		var point = new b2Vec2(0,0);
-		 		var force = new b2Vec2(0,-this.jump);
-			 	this.playerBody.ApplyImpulse(force,point);
-			 	this.jump = 0;
-		 	}
-		 	else if(this.currentVolicty.y == 0)
-		 	{
-		 		this.jump = this.jump + 1;
-		 	}
-		 	
-		 }
-		 else if(this.jump != 0 && this.currentVolicty.y == 0)
-		 {
-		 	var point = new b2Vec2(0,0);
-		 	var force = new b2Vec2(0,-this.jump);
-			 this.playerBody.ApplyImpulse(force,point);
-		 	this.jump = 0;
-		 }
+		
+		 	this.Jump();
+
+		
 
 		// Enter to fire 
-		if(keyboard.isKeyDown(this.keyCodes[3])) { 
+		if(keyboard.isKeyDown(this.keyCodes[3]) || this.pad.buttonPressed(7)) { 
 			
 			if(this.triggerDown == false) {
 
@@ -226,11 +239,42 @@ var Player = (function (){
 
 			this.triggerDown = false;
 		}
+		if(this.pad.connected == true)
+		{
+			if(this.pad.controllAxis(2) >= 0.2 || this.pad.controllAxis(2) <= -0.2 || this.pad.controllAxis(3) <= -0.2 && this.pad.controllAxis(3) >= 0.2 )
+			{
+					var axisX = -this.pad.controllAxis(2);
+					var axisY = this.pad.controllAxis(3);
+					
 
+					this.targetAngle = Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI)) +90;
+
+					var angle = this.targetAngle -this.currentangalur;
+
+					
+					this.currentangalur = this.targetAngle;
+					var s = Math.sin(angle*(Math.PI/180));
+					var c = Math.cos(angle*(Math.PI/180));
+					// translate point back to origin:
+					this.targetDirection.x -= 0;
+					this.targetDirection.y -= 0;
+
+					// rotate point
+					var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+					var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+					// translate point back:
+					this.targetDirection.x = xnew + 0;
+					this.targetDirection.y = ynew + 0;
+
+			}
+
+		}
 		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
 			var rotate = false;
+			
+			
 			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
@@ -279,7 +323,6 @@ var Player = (function (){
 				 	}
 				}
 			}
-			
 			if(rotate == true) {
 				// Rotates target point around player pos
 				var s = Math.sin(angle*(Math.PI/180));
@@ -338,11 +381,40 @@ var Player = (function (){
 			
 	};
 
-	Player.prototype.jump = function()
-	{
-		this.currentVolicty = this.playerBody.GetLinearVelocity();
-		this.currentVolicty.y = this.jump;
-		this.playerBody.SetLinearVelocity(this.currentVolicty);
+	Player.prototype.Jump = function()
+	{	
+		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
+		 {
+		 	
+			if(this.allowJump == true && this.jump == 0)
+		 	{
+		 		this.jump = this.minJump;
+		 	}
+		 	if(this.maxJump <= this.jump && this.allowJump == true)
+		 	{
+		 		var point = new b2Vec2(0,0);
+		 		var force = new b2Vec2(0,-this.jump);
+			 	this.playerBody.ApplyImpulse(force,point);
+			 	this.jump = 0;
+			 	this.allowJump = false;
+		 	}
+		 	else if(this.allowJump == true)
+		 	{
+		 		this.jump = this.jump + 1;
+		 	}
+		 	if(this.currentVolicty.y == 0)
+				this.allowJump = true;
+
+		}
+		else if(this.jump != 0 && this.allowJump == true)
+		{
+		 	var point = new b2Vec2(0,0);
+		 	var force = new b2Vec2(0,-this.jump);
+			this.playerBody.ApplyImpulse(force,point);
+		 	this.jump = 0;
+		 	this.allowJump = false;
+		}
+
 	};
 
 	Player.prototype.draw = function(ctx)

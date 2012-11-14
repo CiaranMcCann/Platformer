@@ -35,7 +35,7 @@ var SeeSaw = ( function () {
 	//			  height ( The height of the See Saw )
 	// Returns: N/A
 	
-	function SeeSaw( posX, posY, width, height ) {
+	function SeeSaw( posX, posY, width, height ,userData ) {
 		// Setting the Position of a See Saw.
 		this._position = new b2Vec2(posX, posY);
 		// Setting the Width of a See Saw.
@@ -50,6 +50,8 @@ var SeeSaw = ( function () {
 		// Define Position of the See Saw.
 		this._bodyDef.position.Set(Physics.pixelToMeters(this._position.x)			
 		, Physics.pixelToMeters(this._position.y));
+		//set user data
+		
 		// Create a new Fixture Definition for a See Saw.	
 		this._bodyFixtureDef = new b2FixtureDef;
 		// Define Density of the See Saw.
@@ -110,12 +112,31 @@ var SeeSaw = ( function () {
 		filter.groupIndex = 0;
 		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
 		this._body.GetFixtureList().SetFilterData(filter);
+
+		this._body.SetUserData(userData);
 		
 	}; 
 
+	// Name: Draw
+	// Brief: This function draws a Sprite onto the See Saw Object.
+	// Arguments: ctx   ( the Context we are using )
+	// Returns: N/A
 	SeeSaw.prototype.draw = function(ctx) {
-		// ctx.drawImage(AssetManager.images["seesaw"],x,y,w,h)
-	};
+	
+		this._position = this._body.GetPosition();
+		ctx.save();
+
+        ctx.translate( (Physics.metersToPixels(this._position.x)),
+		Physics.metersToPixels(this._position.y) );
+        ctx.rotate(this._body.GetAngle());
+        ctx.drawImage(AssetManager.images["seesaw"],
+		Physics.pixelToMeters(this._position.x) - Physics.metersToPixels(3.75),
+		Physics.pixelToMeters(this._position.y) - Physics.metersToPixels(0.25),
+		225,
+		10);
+
+        ctx.restore();	
+	}; // End Function Draw().
 
 	SeeSaw.prototype.getBody = function() {
 		return this._body;

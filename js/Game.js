@@ -7,6 +7,10 @@ var Game = (function () {
 
     function Game() {
 
+        setTimeout(function () {
+            $('#splashScreen').fadeOut('normal');
+        }, 1000);
+
         Graphics.init();
         this.canvas = Graphics.createCanvas("gameCanvas");
         this.canvasContext = this.canvas.getContext("2d");
@@ -14,8 +18,8 @@ var Game = (function () {
         Physics.init(this.canvas);  
      
         // Creating the level
-        this.level = new Level('data/levels/level1.json'); //FIXME Proxy fucking this up
-		    this.level.loadUp(level1JSON);
+        this.level = new Level(); //FIXME Proxy fucking this up
+		this.level.loadUp(level1JSON);
         //this.level.loadUp(level2JSON);
         this.curLevel = 1;      	
     }
@@ -25,26 +29,7 @@ var Game = (function () {
 
       if(this.level.getEntity("player1").curHealth <= 0 || this.level.getEntity("player2").curHealth <= 0) {
 
-            var bodyCount = Physics.world.GetBodyCount();
-            var b = Physics.world.GetBodyList();
-
-            for(var i = 0; i < bodyCount; i++) {
-
-                var next = b.GetNext();
-
-                if(b.GetUserData() != "boundary") {
-                    Physics.world.DestroyBody(b);
-                }
-
-                b = next;
-            }
-
-            this.curLevel++;
-            //this.level = null;
-            Physics.init(this.canvas);  
-            //this.level = new Level('data/levels/level'+this.curLevel+'.json'); //FIXME Proxy fucking this up
             this.level.loadUp(level2JSON);
-            var i =0;
         }
     };
 
