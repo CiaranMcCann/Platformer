@@ -12,8 +12,8 @@ var FloatingPlatform = (function() {
 
 		var fixDef = new b2FixtureDef;
 		fixDef.density = 1.0;
-		fixDef.friction = 1.0;
-		fixDef.restitution = 0.0;
+		fixDef.friction = 0.9;
+		fixDef.restitution = 0.2;
 		fixDef.shape = new b2PolygonShape;
 
 		fixDef.shape.SetAsBox(Physics.pixelToMeters(width/2),Physics.pixelToMeters(height/2));

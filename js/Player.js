@@ -24,6 +24,7 @@ var Player = (function (){
       	box.userData = userData;
       	this.playerBody = null;
 		this.fixDef1 = new b2FixtureDef();
+		
 
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
