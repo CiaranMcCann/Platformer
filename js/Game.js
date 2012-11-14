@@ -8,7 +8,6 @@ var Game = (function () {
 
         setTimeout(function () {
             $('#splashScreen').fadeOut('normal');
-            callback();
         }, 1900);
 
         Graphics.init();
