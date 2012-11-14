@@ -45,6 +45,13 @@ var Player = (function (){
 		this.triggerDown = false;
 
 		this.direction = 1;
+<<<<<<< Updated upstream
+=======
+		//this.playerBody.SetUserData( "player"); //Give it a unqine name
+
+		this.drawManualBalls = false;
+		this.toggleManual = false;
+>>>>>>> Stashed changes
 	}
 
 	Player.prototype.update = function()
@@ -160,7 +167,31 @@ var Player = (function (){
 			this.targetDirection.y = ynew + 0;
 		}
 
+<<<<<<< Updated upstream
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
+=======
+		if(keyboard.isKeyDown(88)) {
+
+			if(this.toggleManual == false) {
+
+				this.toggleManual = true;
+			}
+
+			
+		}
+		else if(this.toggleManual == true) {
+
+			if(this.drawManualBalls == false) {
+				this.drawManualBalls = true;
+			}
+			else {
+				this.drawManualBalls = false;
+			}
+
+			this.toggleManual = false;
+		}
+		
+>>>>>>> Stashed changes
 
 		for(var i = 0; i < this.curBalls; i++) {
 
@@ -184,7 +215,10 @@ var Player = (function (){
 		targetDir.Add(pos);
 
 		for(var i = 0; i < this.curBalls; i++) {
-			//this.manualBalls[i].draw(ctx);
+			
+			if(this.drawManualBalls == true) {	
+				this.manualBalls[i].draw(ctx);
+			}
 
 			this.cannonBalls[i].draw(ctx);
 		}
@@ -225,7 +259,7 @@ var Player = (function (){
 			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 0.5, 5);
 			this.curBalls++;
 		}
 		else if(data == "player2") {
@@ -233,7 +267,7 @@ var Player = (function (){
 			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 1, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 0.51, 5);
 			this.curBalls++;
 		}
 	};

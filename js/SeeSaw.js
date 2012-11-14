@@ -102,6 +102,19 @@ var SeeSaw = ( function () {
 		// Setting the limit in Radians for the max angle it can rotate.
 		this._revoluteJoint.SetLimits(0, 0.6108);
 
+<<<<<<< Updated upstream
+=======
+		// Setting the Width of the Sprite.
+		this._imageWidth = 50;
+		// Setting the Height of the Sprite.
+		this._imageHeight = 30;
+
+		var filter = new b2FilterData();
+		filter.categoryBits = Physics.PLATFORM;
+		filter.groupIndex = 0;
+		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
+		this._body.GetFixtureList().SetFilterData(filter);
+>>>>>>> Stashed changes
 		
 		this.budyDef = new b2BodyDef; 										// 
 		this.budyDef.type = b2Body.b2_dynamicBody; 							// 
