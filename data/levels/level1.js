@@ -21,9 +21,9 @@ var level1JSON = {
       },
 	   {
         "type":"NormalPlatform",
-         "x":820,
+         "x":850,
          "y":155,
-         "width":200,
+         "width":250,
          "height":20
       },
 	   
@@ -36,9 +36,9 @@ var level1JSON = {
       },
 	   {
         "type":"NormalPlatform",
-         "x":450,
+         "x":250,
          "y":515,
-         "width":360,
+         "width":760,
          "height":20
       },
 	  {
@@ -50,9 +50,9 @@ var level1JSON = {
       },
 	    {
         "type":"NormalPlatform",
-         "x":940,
+         "x":870,
          "y":275,
-         "width":220,
+         "width":350,
          "height":20
       },
 	   {
@@ -64,17 +64,17 @@ var level1JSON = {
       },
 	    {
         "type":"SeeSaw",
-         "x":640,
-         "y":390,
+         "x":440,
+         "y":465,
          "width":110,
-         "height":5
+         "height":2
       },
 	  {
         "type":"SeeSaw",
          "x":610,
          "y":660,
          "width":110,
-         "height":5
+         "height":2
       }
 	  
    ]

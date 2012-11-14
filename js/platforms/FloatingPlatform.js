@@ -1,9 +1,7 @@
 // Floating platform  - Jira task [RWMPA-2]
-// When the player jumps onto the platform 
-// its velocity is "transfered" to the plaform
+// When the player jumps onto the platform which is supended and it moves them across the void
 var FloatingPlatform = (function() {
 	
-
 	function FloatingPlatform(x,y,width,height)
 	{
 		this.body; //Reference to body
