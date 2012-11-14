@@ -35,8 +35,8 @@ canvas{
      margin-top: -80px;
 
 
-    -webkit-animation: wink 1.8s steps(25, end);
-    -moz-animation: wink 1.8s steps(25, end);
+    -webkit-animation: wink 1.0s steps(25, end);
+    -moz-animation: wink 1.0s steps(25, end);
     
  }
 

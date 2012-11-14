@@ -7,7 +7,8 @@ var AssetManager;
     // no need for the full url or the extenision
     var imagesToLoad = [
        'data/images/cannonBall.png',
-       'data/images/player.png',
+       'data/images/player1.png',
+       'data/images/player2.png',
        'data/images/cannon.png',
 	   'data/images/seesaw.png'
     ];

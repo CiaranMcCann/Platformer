@@ -8,7 +8,7 @@ var Game = (function () {
 
         setTimeout(function () {
             $('#splashScreen').fadeOut('normal');
-        }, 1900);
+        }, 1000);
 
         Graphics.init();
         this.canvas = Graphics.createCanvas("gameCanvas");
@@ -19,7 +19,9 @@ var Game = (function () {
         // Creating the level
         this.level = new Level(); //FIXME Proxy fucking this up
 		this.level.loadUp(level1JSON);
-        //this.level.loadUp(level2JSON);		
+        //this.level.loadUp(level2JSON);
+
+        	
     }
 
     Game.prototype.update = function () {     
@@ -28,6 +30,7 @@ var Game = (function () {
 
     Game.prototype.draw = function () {
       this.level.draw(this.canvasContext);
+      
     };
 
     Game.prototype.step = function () {
