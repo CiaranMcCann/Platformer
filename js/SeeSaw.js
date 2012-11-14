@@ -35,7 +35,7 @@ var SeeSaw = ( function () {
 	//			  height ( The height of the See Saw )
 	// Returns: N/A
 	
-	function SeeSaw( posX, posY, width, height ) {
+	function SeeSaw( posX, posY, width, height ,userData ) {
 		// Setting the Position of a See Saw.
 		this._position = new b2Vec2(posX, posY);
 		// Setting the Width of a See Saw.
@@ -50,6 +50,8 @@ var SeeSaw = ( function () {
 		// Define Position of the See Saw.
 		this._bodyDef.position.Set(Physics.pixelToMeters(this._position.x)			
 		, Physics.pixelToMeters(this._position.y));
+		//set user data
+		
 		// Create a new Fixture Definition for a See Saw.	
 		this._bodyFixtureDef = new b2FixtureDef;
 		// Define Density of the See Saw.
@@ -110,6 +112,8 @@ var SeeSaw = ( function () {
 		filter.groupIndex = 0;
 		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
 		this._body.GetFixtureList().SetFilterData(filter);
+
+		this._body.SetUserData(userData);
 		
 	}; 
 

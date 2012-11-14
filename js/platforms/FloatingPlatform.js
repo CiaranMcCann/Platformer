@@ -2,7 +2,7 @@
 // When the player jumps onto the platform which is supended and it moves them across the void
 var FloatingPlatform = (function() {
 	
-	function FloatingPlatform(x,y,width,height)
+	function FloatingPlatform(x,y,width,height,userData)
 	{
 		this.body; //Reference to body
 		this.fixture; // refernce to fixture
@@ -23,8 +23,8 @@ var FloatingPlatform = (function() {
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
 
-		this.body.SetUserData( "FloatingPlatform"+x+y+width+height ); //Give it a unqine name
-
+		//this.body.SetUserData( "FloatingPlatform"+x+y+width+height ); //Give it a unqine name
+		this.body.SetUserData(userData);
 		var anchor1 = new NormalPlatform(x-(width/2),y,1,1);
 		var joint = new b2DistanceJointDef();
         var p1, p2, d;

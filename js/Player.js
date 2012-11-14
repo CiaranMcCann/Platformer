@@ -39,8 +39,9 @@ var Player = (function (){
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
-		this.maxJump = 12;
-		this.minJump = 4;
+		
+		this.maxJump = 10;
+		this.minJump = 1;
 
 		var fixture = new b2Fixture();
 		fixture = this.playerBody.GetFixtureList();
@@ -83,6 +84,9 @@ var Player = (function (){
 		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
 		 	var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
 
+		 	
+
+
 		 	if(isPlayerColliding)
 		 	{
 		 		_this.curHealth-=2;
@@ -109,8 +113,32 @@ var Player = (function (){
 	 			}
 		 	}
 
-		 })	
+		 	var that = _this;
+		 	var checkAllowJump = function(){
+		 		that.allowJump = Physics.isObjectColliding("hurtbox",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("normal",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("floatingplatform",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+				that.allowJump = Physics.isObjectColliding("seesaw",that.playerBody.GetUserData(), contact);
+				if(that.allowJump == true){this.jump = 0; return 0};
+		 	}
 
+		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
+		 	{
+			 	checkAllowJump();
+			}
+
+
+		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player1")
+		 	{
+			 	checkAllowJump();
+			}
+
+		 })
+
+		this.allowJump = true;
 	}
 
 	Player.prototype.update = function()
@@ -123,9 +151,6 @@ var Player = (function (){
 			this.pad.update();
 			this.useKeyBoard = false;
 		}
-			
-
-
 		 if(keyboard.isKeyDown(this.keyCodes[0]) || this.pad.buttonPressed(15) || this.pad.controllAxis(0) > 0.5)
 		 {
 		 	this.currentVolicty.x = 5;
@@ -171,33 +196,10 @@ var Player = (function (){
 		 	}
 		 }
 		 this.playerBody.SetLinearVelocity(this.currentVolicty);
-		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
-		 {
-		 	
-		 	if(this.jump == 0 && this.currentVolicty.y == 0)
-		 	{
-		 		this.jump = this.minJump;
-		 	}
-		 	if(this.maxJump <= this.jump && this.currentVolicty.y == 0)
-		 	{
-		 		var point = new b2Vec2(0,0);
-		 		var force = new b2Vec2(0,-this.jump);
-			 	this.playerBody.ApplyImpulse(force,point);
-			 	this.jump = 0;
-		 	}
-		 	else if(this.currentVolicty.y == 0)
-		 	{
-		 		this.jump = this.jump + 1;
-		 	}
-		 	
-		 }
-		 else if(this.jump != 0 && this.currentVolicty.y == 0)
-		 {
-		 	var point = new b2Vec2(0,0);
-		 	var force = new b2Vec2(0,-this.jump);
-			this.playerBody.ApplyImpulse(force,point);
-		 	this.jump = 0;
-		 }
+		
+		 	this.Jump();
+
+		
 
 		// Enter to fire 
 		if(keyboard.isKeyDown(this.keyCodes[3]) || this.pad.buttonPressed(7)) { 
@@ -241,7 +243,7 @@ var Player = (function (){
 		}
 		if(this.pad.connected == true)
 		{
-			if(this.pad.controllAxis(2) != 0.5 || this.pad.controllAxis(3) >= 0.5)
+			if(this.pad.controllAxis(2) >= 0.2 || this.pad.controllAxis(2) <= -0.2 || this.pad.controllAxis(3) <= -0.2 && this.pad.controllAxis(3) >= 0.2 )
 			{
 					var axisX = -this.pad.controllAxis(2);
 					var axisY = this.pad.controllAxis(3);
@@ -375,11 +377,40 @@ var Player = (function (){
 			
 	};
 
-	Player.prototype.jump = function()
-	{
-		this.currentVolicty = this.playerBody.GetLinearVelocity();
-		this.currentVolicty.y = this.jump;
-		this.playerBody.SetLinearVelocity(this.currentVolicty);
+	Player.prototype.Jump = function()
+	{	
+		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
+		 {
+		 	
+			if(this.allowJump == true && this.jump == 0)
+		 	{
+		 		this.jump = this.minJump;
+		 	}
+		 	if(this.maxJump <= this.jump && this.allowJump == true)
+		 	{
+		 		var point = new b2Vec2(0,0);
+		 		var force = new b2Vec2(0,-this.jump);
+			 	this.playerBody.ApplyImpulse(force,point);
+			 	this.jump = 0;
+			 	this.allowJump = false;
+		 	}
+		 	else if(this.allowJump == true)
+		 	{
+		 		this.jump = this.jump + 1;
+		 	}
+		 	if(this.currentVolicty.y == 0)
+				this.allowJump = true;
+
+		}
+		else if(this.jump != 0 && this.allowJump == true)
+		{
+		 	var point = new b2Vec2(0,0);
+		 	var force = new b2Vec2(0,-this.jump);
+			this.playerBody.ApplyImpulse(force,point);
+		 	this.jump = 0;
+		 	this.allowJump = false;
+		}
+
 	};
 
 	Player.prototype.draw = function(ctx)

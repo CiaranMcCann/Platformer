@@ -1,17 +1,6 @@
 var level1JSON = {
    "levelEntites":[
-      {
-         "type":"Player",
-         "x":375,
-         "y":155,
-         "userData": "'player2'"
-      },
-             {
-         "type":"Player",
-         "x":175,
-         "y":100,
-         "userData": "'player1'"
-      },
+     
       {
          "type":"NormalPlatform",
          "x":75,
@@ -34,7 +23,8 @@ var level1JSON = {
          "x":490,
          "y":300,
          "width":100,
-         "height":20
+         "height":20,
+         "userData": "'floatingplatform'"
       },
 	   {
         "type":"NormalPlatform",
@@ -73,15 +63,29 @@ var level1JSON = {
          "x":440,
          "y":465,
          "width":110,
-         "height":2
+         "height":2,
+         "userData": "'seesaw'"
       },
 	  {
         "type":"SeeSaw",
          "x":610,
          "y":660,
          "width":110,
-         "height":2
-      }
+         "height":2,
+         "userData": "'seesaw'"
+      },
+       {
+         "type":"Player",
+         "x":375,
+         "y":155,
+         "userData": "'player2'"
+      },
+             {
+         "type":"Player",
+         "x":175,
+         "y":10,
+         "userData": "'player1'"
+      },
 	  
    ]
 }
