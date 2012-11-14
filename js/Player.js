@@ -69,6 +69,7 @@ var Player = (function (){
 		this.healthBarWidth = 200;	
 
 		this.direction = 1;
+		this.dirLastFrame = 1;
 		//this.playerBody.SetUserData( "player"); //Give it a unqine name
 		this.drawManualBalls = false;
 		this.toggleManual = false;
@@ -116,11 +117,47 @@ var Player = (function (){
 		 {
 		 	this.currentVolicty.x = 5;
 		 	this.direction = 1;
+
+		 	if(this.dirLastFrame != this.direction) {
+
+		 		
+		 		var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
+				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
+				// translate point back to origin:
+				this.targetDirection.x -= 0;
+				this.targetDirection.y -= 0;
+
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+				this.targetAngle = 180 - this.targetAngle;
+		 	}
 		 }
 		 if(keyboard.isKeyDown(this.keyCodes[1]) || this.pad.buttonPressed(14) || this.pad.controllAxis(0) < 0 && this.pad.controllAxis(0) < -0.5 )
 		 {
 		 	this.currentVolicty.x = -5;
 		 	this.direction = -1;
+
+		 	if(this.dirLastFrame != this.direction) {
+
+				
+				var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
+				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
+				// translate point back to origin:
+				this.targetDirection.x -= 0;
+				this.targetDirection.y -= 0;
+
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+				this.targetAngle = 180 - this.targetAngle;
+		 	}
 		 }
 		 this.playerBody.SetLinearVelocity(this.currentVolicty);
 		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
@@ -195,31 +232,71 @@ var Player = (function (){
 		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
-
+			var rotate = false;
 			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
 				this.targetAngle++;
+
+				if(this.direction == 1){
+
+					if(this.targetAngle>90) {
+						this.targetAngle= 90;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
+				else {
+
+					if(this.targetAngle>270) {
+						this.targetAngle= 270;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
 			}
 			else
 			{
 			 	angle = -1;
 			 	this.targetAngle--;
+
+			 	if(this.direction == 1){
+
+				 	if(this.targetAngle<-90) {
+				 		this.targetAngle= -90;
+				 	}
+				 	else {
+				 		rotate = true;
+				 	}
+				}
+				else {
+
+					if(this.targetAngle<90) {
+						this.targetAngle= 90;
+					}
+					else {
+				 		rotate = true;
+				 	}
+				}
 			}
 			
-			// Rotates target point around player pos
-			var s = Math.sin(angle*(Math.PI/180));
-			var c = Math.cos(angle*(Math.PI/180));
-			// translate point back to origin:
-			this.targetDirection.x -= 0;
-			this.targetDirection.y -= 0;
+			if(rotate == true) {
+				// Rotates target point around player pos
+				var s = Math.sin(angle*(Math.PI/180));
+				var c = Math.cos(angle*(Math.PI/180));
+				// translate point back to origin:
+				this.targetDirection.x -= 0;
+				this.targetDirection.y -= 0;
 
-			// rotate point
-			var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
-			var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
-			// translate point back:
-			this.targetDirection.x = xnew + 0;
-			this.targetDirection.y = ynew + 0;
+				// rotate point
+				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+				var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+				// translate point back:
+				this.targetDirection.x = xnew + 0;
+				this.targetDirection.y = ynew + 0;
+			}
 		}
 
 		
@@ -252,6 +329,8 @@ var Player = (function (){
 			this.cannonBalls[i].timeAlive++;
 			this.manualBalls[i].update(0.1);
 		}
+
+		this.dirLastFrame = this.direction;
 			
 	};
 
