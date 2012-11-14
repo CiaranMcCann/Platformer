@@ -24,7 +24,7 @@ var CannonBall = (function () {
 		filter.maskBits = maskBits;
 		this.physicsBody.GetFixtureList().SetFilterData(filter);
 		
-		this.active = false;
+		this.active = true;
 		this.timeAlive = 0;
 	}
 		
@@ -50,8 +50,7 @@ var CannonBall = (function () {
 
         ctx.translate( Physics.metersToPixels(pos.x), Physics.metersToPixels(pos.y) )
         ctx.rotate(this.physicsBody.GetAngle())
-        ctx.drawImage(AssetManager.images["cannonBall"], -10, -10, 20, 20)
-
+        ctx.drawImage(AssetManager.images[this.physicsBody.GetFixtureList().GetBody().GetUserData()], -10, -10, 20, 20)
         ctx.restore()
 }
 	

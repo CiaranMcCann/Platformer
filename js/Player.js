@@ -99,9 +99,7 @@ var Player = (function (){
 					}
 	 			}
 		 	}
-
 		 })	
-
 	}
 
 	Player.prototype.update = function()
@@ -328,6 +326,12 @@ var Player = (function (){
 
 			this.cannonBalls[i].timeAlive++;
 			this.manualBalls[i].update(0.1);
+		}
+
+
+		if(this.curHealth <= 0){
+			// Load next level
+
 		}
 
 		this.dirLastFrame = this.direction;
