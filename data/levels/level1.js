@@ -3,87 +3,91 @@ var level1JSON = {
      
       {
          "type":"NormalPlatform",
-         "x":75,
-         "y":155,
-         "width":450,
+         "x":40,
+         "y":130,
+         "width":140,
          "height":20,
          "userData": "'normal'"
       },
 	   {
         "type":"NormalPlatform",
-         "x":850,
-         "y":155,
-         "width":250,
+         "x":950,
+         "y":130,
+         "width":140,
          "height":20,
          "userData": "'normal'"
       },
 	   
 	   {
         "type":"FloatingPlatform",
-         "x":490,
-         "y":300,
-         "width":100,
+         "x":650,
+         "y":200,
+         "width":60,
          "height":20,
          "userData": "'floatingplatform'"
       },
+
+      {
+        "type":"FloatingPlatform",
+         "x":330,
+         "y":200,
+         "width":60,
+         "height":20,
+         "userData": "'floatingplatform'"
+      },
+
 	   {
         "type":"NormalPlatform",
-         "x":250,
-         "y":515,
-         "width":760,
+         "x":500,
+         "y":755,
+         "width":1100,
          "height":20,
          "userData": "'hurtbox'"
       },
-	  {
-        "type":"NormalPlatform",
-         "x":275,
-         "y":615,
-         "width":250,
-         "height":20,
-         "userData": "'normal'"
-      },
+
 	    {
         "type":"NormalPlatform",
-         "x":870,
+         "x":920,
          "y":275,
-         "width":350,
+         "width":200,
          "height":20,
          "userData": "'normal'"
       },
-	   {
+       {
         "type":"NormalPlatform",
-         "x":940,
-         "y":645,
-         "width":220,
+         "x":50,
+         "y":275,
+         "width":200,
          "height":20,
          "userData": "'normal'"
       },
+
 	    {
         "type":"SeeSaw",
-         "x":440,
-         "y":465,
-         "width":110,
+         "x":300,
+         "y":400,
+         "width":180,
          "height":10,
          "userData": "'seesaw'"
       },
 	  {
         "type":"SeeSaw",
-         "x":610,
-         "y":660,
-         "width":110,
+         "x":700,
+         "y":400,
+         "width":180,
          "height":10,
          "userData": "'seesaw'"
       },
        {
          "type":"Player",
-         "x":375,
-         "y":155,
+         "x":955,
+         "y":1,
          "userData": "'player2'"
       },
              {
          "type":"Player",
-         "x":175,
-         "y":10,
+         "x":25,
+         "y":1,
          "userData": "'player1'"
       },
 	  

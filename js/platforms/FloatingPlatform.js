@@ -19,18 +19,18 @@ var FloatingPlatform = (function() {
 		fixDef.shape.SetAsBox(Physics.pixelToMeters(width/2),Physics.pixelToMeters(height/2));
 
 		bodyDef.position.x =  Physics.pixelToMeters(x);
-		bodyDef.position.y =  Physics.pixelToMeters(y/2);//TODO CIARAN WHAT?
+		bodyDef.position.y =  Physics.pixelToMeters(y);//TODO CIARAN WHAT?
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
 
 		//this.body.SetUserData( "FloatingPlatform"+x+y+width+height ); //Give it a unqine name
 		this.body.SetUserData(userData);
-		var anchor1 = new NormalPlatform(x-(width/2),y,1,1);
+		var anchor1 = new NormalPlatform(x-(width/2),0,1,1);
 		var joint = new b2DistanceJointDef();
         var p1, p2, d;
 
         joint.frequencyHz = 2.0;
-        joint.dampingRatio = 0.0;
+        joint.dampingRatio = 20.0;
 
         joint.bodyA = anchor1.body;
         joint.bodyB = this.body;
@@ -43,12 +43,12 @@ var FloatingPlatform = (function() {
         joint.length = d.Length();
         Physics.world.CreateJoint(joint)
 
-        var anchor2 =  new NormalPlatform(x+(width/2),y,1,1);
+        var anchor2 =  new NormalPlatform(x+(width/2),0,1,1);
         var joint2 = new b2DistanceJointDef();
         var p1, p2, d;
 
         joint2.frequencyHz = 2.0;
-        joint2.dampingRatio = 0.0;
+        joint2.dampingRatio = 20.0;
 
         joint2.bodyA = anchor2.body;
         joint2.bodyB = this.body;

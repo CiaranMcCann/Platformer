@@ -86,7 +86,7 @@ var Player = (function (){
 
 		 	if(isPlayerColliding)
 		 	{
-		 		_this.curHealth-=2;
+		 		_this.curHealth-= _this.curHealth; // kill him
 		 	}
 
 		 	if(p1Hit)
@@ -454,30 +454,30 @@ var Player = (function (){
         if(data == "player1") {
 
         	ctx.fillStyle = "rgb(255, 0, 0)";
-            ctx.fillRect( 10 , 50, this.healthBarWidth, 10);
+            ctx.fillRect( 10 , 30, this.healthBarWidth, 10);
             ctx.fill();
 
             ctx.fillStyle = "rgb(0, 255, 0)";
-            ctx.fillRect( 10 , 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fillRect( 10 , 30, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
             ctx.fill();
 
-            ctx.fillStyle = "rgb(0, 0, 0)";
-            ctx.font="30px Arial";
-			ctx.fillText("Player 1", 10, 40);
+            ctx.fillStyle = "rgb(255, 255, 255)";
+            ctx.font="23px Arial";
+			ctx.fillText("Player 1", 10, 23);
         }
         else if(data == "player2") {
 
 			ctx.fillStyle = "rgb(255, 0, 0)";
-            ctx.fillRect( 810 , 50, this.healthBarWidth, 10);
+            ctx.fillRect( 810 , 30, this.healthBarWidth, 10);
             ctx.fill();
 
             ctx.fillStyle = "rgb(0, 255, 0)";
-            ctx.fillRect( 810 + (this.maxHealth-this.curHealth)*2, 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fillRect( 810 + (this.maxHealth-this.curHealth)*2, 30, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
             ctx.fill();
 
-            ctx.fillStyle = "rgb(0, 0, 0)";
-            ctx.font="30px Arial";
-			ctx.fillText("Player 2", 900, 40);
+            ctx.fillStyle = "rgb(255, 255, 255)";
+            ctx.font="23px Arial";
+			ctx.fillText("Player 2", 900, 23);
         }
 	};
 

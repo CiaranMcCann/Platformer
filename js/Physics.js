@@ -42,6 +42,7 @@ var Physics;
         Physics.debugDraw.SetDrawScale(Physics.worldScale);
         Physics.debugDraw.SetFillAlpha(0.3);
         Physics.debugDraw.SetLineThickness(1);
+        //TODO removed this from below line b2DebugDraw.e_shapeBit;
         Physics.debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
         Physics.world.SetDebugDraw(Physics.debugDraw);
 

@@ -5,7 +5,7 @@ var Game = (function () {
     this.level;          // manages all the objects 
     this.curLevel;
 
-    function Game(t) {
+    function Game() {
 
         setTimeout(function () {
             $('#splashScreen').fadeOut('normal');
@@ -61,7 +61,8 @@ var Game = (function () {
                     {
                         _this.level.loadUp(level3JSON, _this.canvas);
                     }
-                    this.currentChanginglevel = false;
+                    _this.currentChanginglevel = false;
+                    $('#splashScreen').empty();
                 },1800);         
        }
     };
