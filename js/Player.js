@@ -406,16 +406,6 @@ var Player = (function (){
             ctx.font="30px Arial";
 			ctx.fillText("Player 2", 900, 40);
         }
-
-		
-
-		/*ctx.fillStyle = "rgb(155, 0, 0)";
-		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
-		ctx.fill();*/
-
-		/*ctx.fillStyle = "rgb(0, 155, 0)";
-		ctx.fillRect( Physics.metersToPixels(pos.x)-5, Physics.metersToPixels(pos.y)-5, 10, 10);
-		ctx.fill();*/
 	};
 
 	Player.prototype.FireCannon = function(pos)
