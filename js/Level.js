@@ -56,7 +56,18 @@ var Level = (function(){
 	};
 
 	Level.prototype.update = function() {
-		
+		for( var enity in this.levelEnities)
+		{
+			this.levelEnities[enity].update();
+		}
+	};
+
+
+	Level.prototype.draw = function(ctx) {
+		for( var enity in this.levelEnities)
+		{
+			this.levelEnities[enity].draw(ctx);
+		}
 	};
 
 	return Level;

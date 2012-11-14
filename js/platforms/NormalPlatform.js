@@ -23,6 +23,14 @@ var NormalPlatform = (function() {
 		this.body = this.fixture.GetBody();
 	}
 
+	NormalPlatform.prototype.draw = function(ctx) {
+		// body...
+	};
+
+	NormalPlatform.prototype.update = function() {
+		// body...
+	};
+
 	return NormalPlatform;
 
 })();

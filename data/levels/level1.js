@@ -1,31 +1,37 @@
-var level2JSON = {
+var level1JSON = {
    "levelEntites":[
+      {
+         "type":"Player",
+         "x":375,
+         "y":155,
+         "userData": "'player2'"
+      },
+             {
+         "type":"Player",
+         "x":175,
+         "y":100,
+         "userData": "'player1'"
+      },
       {
          "type":"NormalPlatform",
          "x":75,
-         "y":375,
-         "width":150,
-         "height":500
-      },
-	   {
-        "type":"NormalPlatform",
-         "x":480,
-         "y":135,
-         "width":500,
+         "y":155,
+         "width":450,
          "height":20
       },
 	   {
         "type":"NormalPlatform",
-         "x":400,
-         "y":325,
-         "width":20,
-         "height":360
+         "x":820,
+         "y":155,
+         "width":200,
+         "height":20
       },
+	   
 	   {
-        "type":"NormalPlatform",
-         "x":220,
-         "y":375,
-         "width":140,
+        "type":"FloatingPlatform",
+         "x":490,
+         "y":300,
+         "width":100,
          "height":20
       },
 	   {

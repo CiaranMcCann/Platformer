@@ -1,6 +1,21 @@
 var Player = (function (){
 	
-	function Player(x, y, keys, catagoryBits, maskBits, userData) {
+	function Player(x, y,userData) {
+
+		if("player1" == userData)
+		{
+					//[left,right,up,shoot,rotateleft,rotateright]
+			var keys = [68,65,87,32,190,188];
+			var catagoryBits = Physics.PLAYER_ONE;
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO;
+		}
+
+		if("player2" == userData)
+		{
+			var keys = [39,37,38,98,99,97];
+			var catagoryBits = Physics.PLAYER_TWO;
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_ONE_BALL | Physics.PLAYER_ONE;
+		}
 
 		var box = new b2BodyDef;
 		this.keyCodes = keys;
@@ -15,8 +30,8 @@ var Player = (function (){
       	fixDef2.shape = new b2CircleShape(0.5);
         this.fixDef1.shape.SetAsBox(0.5,0.5);
 
-        box.position.x = Math.random() * 25;
-        box.position.y = Math.random() * 10;
+        box.position.x = Physics.pixelToMeters(x);
+        box.position.y = Physics.pixelToMeters(y);
 		this.pad = new GamePad();
 		this.pad.Connect(); 
  		this.currentVolicty = null;
@@ -183,7 +198,7 @@ var Player = (function (){
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
 	};
 
-	Player.prototype.Draw = function(ctx)
+	Player.prototype.draw = function(ctx)
 	{
 		var pos =  this.playerBody.GetPosition();
 		var targetDir = this.targetDirection.Copy();
