@@ -28,7 +28,7 @@ var Player = (function (){
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-        this.fixDef1.shape.SetAsBox(0.5,0.5);
+        this.fixDef1.shape.SetAsBox(0.5,0.5 , new b2Vec2(20,0), 0 );
 
         box.position.x = Physics.pixelToMeters(x);
         box.position.y = Physics.pixelToMeters(y);
@@ -51,13 +51,16 @@ var Player = (function (){
 		fixture.SetFilterData(filter);
 		fixture = fixture.GetNext();
 		fixture.SetFilterData(filter);
-
+		this.gotoAngle = 0;
 		this.jump = 0;
 
 		this.targetDirection = new b2Vec2(this.playerBody.GetPosition().Copy().x+50, this.playerBody.GetPosition().Copy().y);
 		this.targetDirection.Multiply(5);
 		this.targetAngle = 0;
-
+		var axisX = -this.pad.controllAxis(2);
+		var axisY = this.pad.controllAxis(3);
+		this.useKeyBoard = true;			
+		this.currentangalur  = 0;//Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI));
  		this.cannonBalls = new Array();
  		this.manualBalls = new Array();
 		this.maxBalls = 30;
@@ -116,7 +119,11 @@ var Player = (function (){
 		var pos = this.playerBody.GetPosition();
 		this.pad.Connect();
 		if(this.pad.connected == true)
+		{
 			this.pad.update();
+			this.useKeyBoard = false;
+		}
+			
 
 
 		 if(keyboard.isKeyDown(this.keyCodes[0]) || this.pad.buttonPressed(15) || this.pad.controllAxis(0) > 0.5)
@@ -124,7 +131,7 @@ var Player = (function (){
 		 	this.currentVolicty.x = 5;
 		 	this.direction = 1;
 
-		 	if(this.dirLastFrame != this.direction) {
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard == true) {
 
 		 		
 		 		var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
@@ -147,14 +154,12 @@ var Player = (function (){
 		 	this.currentVolicty.x = -5;
 		 	this.direction = -1;
 
-		 	if(this.dirLastFrame != this.direction) {
+		 	if(this.dirLastFrame != this.direction && this.useKeyBoard) {
 
 				
 				var s = Math.sin(((90 -this.targetAngle)*(Math.PI/180))*2);
 				var c = Math.cos(((90 -this.targetAngle)*(Math.PI/180))*2);
 				// translate point back to origin:
-				this.targetDirection.x -= 0;
-				this.targetDirection.y -= 0;
 
 				// rotate point
 				var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
@@ -190,12 +195,12 @@ var Player = (function (){
 		 {
 		 	var point = new b2Vec2(0,0);
 		 	var force = new b2Vec2(0,-this.jump);
-			 this.playerBody.ApplyImpulse(force,point);
+			this.playerBody.ApplyImpulse(force,point);
 		 	this.jump = 0;
 		 }
 
 		// Enter to fire 
-		if(keyboard.isKeyDown(this.keyCodes[3])) { 
+		if(keyboard.isKeyDown(this.keyCodes[3]) || this.pad.buttonPressed(7)) { 
 			
 			if(this.triggerDown == false) {
 
@@ -234,11 +239,42 @@ var Player = (function (){
 
 			this.triggerDown = false;
 		}
+		if(this.pad.connected == true)
+		{
+			if(this.pad.controllAxis(2) != 0.5 || this.pad.controllAxis(3) >= 0.5)
+			{
+					var axisX = -this.pad.controllAxis(2);
+					var axisY = this.pad.controllAxis(3);
+					
 
+					this.targetAngle = Math.floor(Math.atan2(axisX,axisY)*(180/Math.PI)) +90;
+
+					var angle = this.targetAngle -this.currentangalur;
+
+					
+					this.currentangalur = this.targetAngle;
+					var s = Math.sin(angle*(Math.PI/180));
+					var c = Math.cos(angle*(Math.PI/180));
+					// translate point back to origin:
+					this.targetDirection.x -= 0;
+					this.targetDirection.y -= 0;
+
+					// rotate point
+					var xnew = this.targetDirection.x * c - this.targetDirection.y * s;
+					var ynew = this.targetDirection.x * s + this.targetDirection.y * c;
+					// translate point back:
+					this.targetDirection.x = xnew + 0;
+					this.targetDirection.y = ynew + 0;
+
+			}
+
+		}
 		if(keyboard.isKeyDown(this.keyCodes[4]) || keyboard.isKeyDown(this.keyCodes[5])) {
 			
 			var angle;
 			var rotate = false;
+			
+			
 			if(keyboard.isKeyDown(this.keyCodes[4]))
 			{
 				angle = 1
@@ -287,7 +323,6 @@ var Player = (function (){
 				 	}
 				}
 			}
-			
 			if(rotate == true) {
 				// Rotates target point around player pos
 				var s = Math.sin(angle*(Math.PI/180));
