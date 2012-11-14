@@ -85,6 +85,9 @@ var Player = (function (){
 		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
 		 	var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
 
+		 	
+
+
 		 	if(isPlayerColliding)
 		 	{
 		 		_this.curHealth-= _this.curHealth; // kill him
@@ -121,6 +124,23 @@ var Player = (function (){
 				that.allowJump = Physics.isObjectColliding("seesaw",that.playerBody.GetUserData(), contact);
 				if(that.allowJump == true){this.jump = 0; return 0};
 		 	}
+		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
+		 	{
+			 	checkAllowJump();
+			}
+
+		 	var that = _this;
+		 	var checkAllowJump = function(){
+		 		that.allowJump = Physics.isObjectColliding("hurtbox",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("normal",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+			 	that.allowJump = Physics.isObjectColliding("floatingplatform",that.playerBody.GetUserData(), contact);
+			 	if(that.allowJump == true){this.jump = 0; return 0};
+				that.allowJump = Physics.isObjectColliding("seesaw",that.playerBody.GetUserData(), contact);
+				if(that.allowJump == true){this.jump = 0; return 0};
+		 	}
+
 		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
 		 	{
 			 	checkAllowJump();
