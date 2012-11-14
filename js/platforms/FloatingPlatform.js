@@ -76,7 +76,20 @@ var FloatingPlatform = (function() {
 	};
 
 	FloatingPlatform.prototype.draw = function(ctx) {
-		
+		var position = b2Vec2(0,0);	
+		position = this.body.GetPosition();
+		ctx.save();
+
+        ctx.translate( (Physics.metersToPixels(position.x)),
+		Physics.metersToPixels(position.y) );
+        ctx.rotate(this.body.GetAngle());
+        ctx.drawImage(AssetManager.images["floatingplatform"],
+		Physics.pixelToMeters(position.x) - Physics.metersToPixels(1.71),
+		Physics.pixelToMeters(position.y) - Physics.metersToPixels(0.4),
+		103,
+		23);
+
+        ctx.restore();	
 	};
 
 

@@ -63,7 +63,7 @@ var level1JSON = {
          "x":440,
          "y":465,
          "width":110,
-         "height":2,
+         "height":10,
          "userData": "'seesaw'"
       },
 	  {
@@ -71,7 +71,7 @@ var level1JSON = {
          "x":610,
          "y":660,
          "width":110,
-         "height":2,
+         "height":10,
          "userData": "'seesaw'"
       },
        {
