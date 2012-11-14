@@ -61,6 +61,19 @@ var Player = (function (){
 
 		this.direction = 1;
 		//this.playerBody.SetUserData( "player"); //Give it a unqine name
+
+		var _this = this;
+		Physics.addContactListener(function(contact){
+            
+            //check if the player and this platform are colliding
+            var isPlayerColliding = Physics.isObjectColliding("hurtbox",_this.playerBody.GetUserData(), contact);
+
+            if(isPlayerColliding)
+            {
+            	console.log("hurt"); 
+            }
+            
+		});
 	}
 
 	Player.prototype.update = function()

@@ -17,14 +17,16 @@ var level1JSON = {
          "x":75,
          "y":155,
          "width":450,
-         "height":20
+         "height":20,
+         "userData": "'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":850,
          "y":155,
          "width":250,
-         "height":20
+         "height":20,
+         "userData": "'normal'"
       },
 	   
 	   {
@@ -39,28 +41,32 @@ var level1JSON = {
          "x":250,
          "y":515,
          "width":760,
-         "height":20
+         "height":20,
+         "userData": "'hurtbox'"
       },
 	  {
         "type":"NormalPlatform",
          "x":275,
          "y":615,
          "width":250,
-         "height":20
+         "height":20,
+         "userData": "'normal'"
       },
 	    {
         "type":"NormalPlatform",
          "x":870,
          "y":275,
          "width":350,
-         "height":20
+         "height":20,
+         "userData": "'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":940,
          "y":645,
          "width":220,
-         "height":20
+         "height":20,
+         "userData": "'normal'"
       },
 	    {
         "type":"SeeSaw",
