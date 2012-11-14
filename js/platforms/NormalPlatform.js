@@ -7,6 +7,7 @@ var NormalPlatform = (function() {
 		this.fixture; // refernce to fixture
 		this.width = width;
 		this.height = height;
+		this.userData = userData
 
 		var bodyDef = new b2BodyDef;
 		bodyDef.type = b2Body.b2_staticBody;
@@ -35,17 +36,33 @@ var NormalPlatform = (function() {
 	NormalPlatform.prototype.draw = function(ctx) {
 		var position = b2Vec2(0,0);	
 		position = this.body.GetPosition();
-		ctx.save();
-
-        ctx.translate( (Physics.metersToPixels(position.x)),
-		Physics.metersToPixels(position.y) );
-        ctx.rotate(this.body.GetAngle());
-        ctx.drawImage(AssetManager.images["normalplatform"],
-		Physics.pixelToMeters(position.x) - this.width/2,
-		Physics.pixelToMeters(position.y) - this.height/2,
-		this.width,
-		this.height);
-		ctx.restore();	
+	
+		if ( this.userData == 'hurtbox' ) {
+			ctx.save();
+			ctx.translate( (Physics.metersToPixels(position.x)),
+			Physics.metersToPixels(position.y) );
+			ctx.rotate(this.body.GetAngle());
+			ctx.drawImage(AssetManager.images["spikes"],
+			Physics.pixelToMeters(position.x) - this.width/2,
+			Physics.pixelToMeters(position.y) - this.height/2,
+			this.width,
+			this.height);
+			ctx.restore();	
+	
+		}
+		
+		else {
+			ctx.save();
+			ctx.translate( (Physics.metersToPixels(position.x)),
+			Physics.metersToPixels(position.y) );
+			ctx.rotate(this.body.GetAngle());
+			ctx.drawImage(AssetManager.images["normalplatform"],
+			Physics.pixelToMeters(position.x) - this.width/2,
+			Physics.pixelToMeters(position.y) - this.height/2,
+			this.width,
+			this.height);
+			ctx.restore();	
+		}
 	};
 
 	NormalPlatform.prototype.update = function() {

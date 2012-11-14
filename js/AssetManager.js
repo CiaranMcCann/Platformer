@@ -12,7 +12,8 @@ var AssetManager;
        'data/images/cannon.png',
 	   'data/images/seesaw.png',
 	   'data/images/floatingplatform.png',
-	   'data/images/normalplatform.png'
+	   'data/images/normalplatform.png',
+	   'data/images/spikes.png'
     ];
 
     AssetManager.images = [];
