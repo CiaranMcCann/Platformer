@@ -6,6 +6,10 @@ var Game = (function () {
 
     function Game() {
 
+        setTimeout(function () {
+            $('#splashScreen').fadeOut('normal');
+        }, 1000);
+
         Graphics.init();
         this.canvas = Graphics.createCanvas("gameCanvas");
         this.canvasContext = this.canvas.getContext("2d");
@@ -13,9 +17,11 @@ var Game = (function () {
         Physics.init(this.canvas);  
      
         // Creating the level
-        this.level = new Level('data/levels/level1.json'); //FIXME Proxy fucking this up
-		    this.level.loadUp(level1JSON);
-        //this.level.loadUp(level2JSON);		
+        this.level = new Level(); //FIXME Proxy fucking this up
+		this.level.loadUp(level1JSON);
+        //this.level.loadUp(level2JSON);
+
+        	
     }
 
     Game.prototype.update = function () {     
@@ -24,6 +30,7 @@ var Game = (function () {
 
     Game.prototype.draw = function () {
       this.level.draw(this.canvasContext);
+      
     };
 
     Game.prototype.step = function () {

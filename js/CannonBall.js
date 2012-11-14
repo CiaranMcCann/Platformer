@@ -1,7 +1,7 @@
 
 var CannonBall = (function () {
 
-	function CannonBall(pB2dWorld, xPos, yPos, catagoryBits, maskBits) {
+	function CannonBall(pB2dWorld, xPos, yPos, catagoryBits, maskBits, userData) {
 	
 		var fixDef = new b2FixtureDef();	
 	    var bodyDef = new b2BodyDef();	
@@ -14,6 +14,7 @@ var CannonBall = (function () {
 		bodyDef.type = b2Body.b2_dynamicBody;
 		bodyDef.position.Set(xPos, yPos);
 		bodyDef.isBullet = false;
+		bodyDef.userData = userData;
 		this.physicsBody = pB2dWorld.CreateBody(bodyDef);
 		this.physicsBody.CreateFixture(fixDef);
 
@@ -36,9 +37,9 @@ var CannonBall = (function () {
 		this.physicsBody.SetLinearVelocity(new b2Vec2(0, 0));
 		this.direction = new b2Vec2(targetX-xPos, targetY-yPos);
 		this.direction.Normalize();
-		this.direction = new b2Vec2(this.direction.x*200,this.direction.y*200);
+		this.direction = new b2Vec2(this.direction.x, this.direction.y);
 		
-		this.physicsBody.ApplyForce( this.direction, this.physicsBody.GetWorldCenter());
+		this.physicsBody.ApplyForce( new b2Vec2(this.direction.x*150, this.direction.y*150), this.physicsBody.GetWorldCenter());
 	};
 
 	CannonBall.prototype.draw = function(ctx) {

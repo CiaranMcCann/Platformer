@@ -16,6 +16,8 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2,
   b2Transform = Box2D.Common.Math.b2Transform,
   b2ContactListener = Box2D.Dynamics.b2ContactListener,
 	b2RevoluteJoint = Box2D.Dynamics.Joints.b2RevoluteJoint,
+  b2Contact = Box2D.Dynamics.Contacts.b2Contact,
+  b2ContactEdge = Box2D.Dynamics.Contacts.b2ContactEdge,
   b2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef;
 
 var Physics;
