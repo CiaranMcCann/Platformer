@@ -186,7 +186,7 @@ var Player = (function (){
 
 		
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
-=======
+
 		if(keyboard.isKeyDown(88)) {
 
 			if(this.toggleManual == false) {
@@ -207,8 +207,7 @@ var Player = (function (){
 
 			this.toggleManual = false;
 		}
-		
->>>>>>> Stashed changes
+
 
 		for(var i = 0; i < this.curBalls; i++) {
 
