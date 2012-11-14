@@ -4,8 +4,8 @@ var ManualPhysicsBall = (function () {
 	function ManualPhysicsBall(position, direction, force, mass) {
 	
 		this.position = new b2Vec2(Physics.metersToPixels(position.x), Physics.metersToPixels(position.y));
-		this.velocity = new b2Vec2(direction.x*force, direction.y*force);
-		this.acc = new b2Vec2(0, 9.81);
+		this.velocity = new b2Vec2(Physics.pixelToMeters(direction.x*force), Physics.pixelToMeters(direction.y*force));
+		this.acc = new b2Vec2(0, 10);
 		this.mass = mass;
 	}
 

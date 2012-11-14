@@ -41,11 +41,16 @@ var Player = (function (){
 
 		this.maxJump = 12;
 		this.minJump = 4;
+
+		var fixture = new b2Fixture();
+		fixture = this.playerBody.GetFixtureList();
 		var filter = new b2FilterData();
 		filter.categoryBits = catagoryBits;
 		filter.groupIndex = 0;
 		filter.maskBits = maskBits;
-		this.playerBody.GetFixtureList().SetFilterData(filter);
+		fixture.SetFilterData(filter);
+		fixture = fixture.GetNext();
+		fixture.SetFilterData(filter);
 
 		this.jump = 0;
 
@@ -59,10 +64,43 @@ var Player = (function (){
 		this.curBalls = 0;
 		this.triggerDown = false;
 
+		this.maxHealth = 100;
+		this.curHealth = 100;	
+		this.healthBarWidth = 200;	
+
 		this.direction = 1;
 		//this.playerBody.SetUserData( "player"); //Give it a unqine name
 		this.drawManualBalls = false;
 		this.toggleManual = false;
+
+		var _this = this;
+		 Physics.addContactListener(function(contact){
+
+		 	var p1Hit = Physics.isObjectColliding("player1", "p2Ball", contact);
+
+		 	if(p1Hit)
+		 	{
+		 		if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player1"){
+	 				if(_this.curHealth>0){
+						_this.curHealth-=2;
+					}
+	 			}
+		 	}
+
+		 	var p2Hit = Physics.isObjectColliding("player2", "p1Ball", contact);
+
+		 	if(p2Hit)
+		 	{
+	 			
+	 			if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2"){
+	 				if(_this.curHealth>0){
+						_this.curHealth-=2;
+					}
+	 			}
+		 	}
+
+		 })	
+
 	}
 
 	Player.prototype.update = function()
@@ -214,6 +252,7 @@ var Player = (function (){
 			this.cannonBalls[i].timeAlive++;
 			this.manualBalls[i].update(0.1);
 		}
+			
 	};
 
 	Player.prototype.jump = function()
@@ -258,6 +297,38 @@ var Player = (function (){
 
         ctx.restore();
 
+        var data = this.playerBody.GetFixtureList().GetBody().GetUserData();
+        if(data == "player1") {
+
+        	ctx.fillStyle = "rgb(255, 0, 0)";
+            ctx.fillRect( 10 , 50, this.healthBarWidth, 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 255, 0)";
+            ctx.fillRect( 10 , 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.font="30px Arial";
+			ctx.fillText("Player 1", 10, 40);
+        }
+        else if(data == "player2") {
+
+			ctx.fillStyle = "rgb(255, 0, 0)";
+            ctx.fillRect( 810 , 50, this.healthBarWidth, 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 255, 0)";
+            ctx.fillRect( 810 + (this.maxHealth-this.curHealth)*2, 50, this.healthBarWidth*(this.curHealth/this.maxHealth), 10);
+            ctx.fill();
+
+            ctx.fillStyle = "rgb(0, 0, 0)";
+            ctx.font="30px Arial";
+			ctx.fillText("Player 2", 900, 40);
+        }
+
+		
+
 		/*ctx.fillStyle = "rgb(155, 0, 0)";
 		ctx.fillRect( Physics.metersToPixels(targetDir.x)-2 , Physics.metersToPixels(targetDir.y)-2, 4,4);
 		ctx.fill();*/
@@ -272,18 +343,18 @@ var Player = (function (){
 		// Create and fire new cannon ball
 		var data = this.playerBody.GetFixtureList().GetBody().GetUserData();
 		if(data == "player1") {
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p1Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 0.5, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);
 			this.curBalls++;
 		}
 		else if(data == "player2") {
 
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM);
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p2Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
-			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 0.51, 5);
+			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);
 			this.curBalls++;
 		}
 	};
