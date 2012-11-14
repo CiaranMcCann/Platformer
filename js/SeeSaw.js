@@ -21,10 +21,9 @@ var SeeSaw = ( function () {
 	this._pivotRadius;															// The radius of the Pivot of the See Saw.
 	this._pivotBody;															// The Physical Body of the Pivot of the See Saw.
 	this._pivotBodyDef;															// The Phsyical Body Definition of the Pivot of the See Saw.
-	this.budyDef;																//
-	this.budyFixDef;															// These are for the test cube falling on th see saw.
-	this.budyDef;																//
-
+	this._image;																// The image of the See Saw Object.
+	this._imageWidth;															// Width of the Sprite.
+	this._imageHeight;															// Height of the Sprite.
 	
 	// Name: See Saw
 	// Brief: This is the Constructor of the Class.
@@ -100,37 +99,31 @@ var SeeSaw = ( function () {
 		// Enable the limit for the See Saw, so it doesn't spin out of control.
 		this._revoluteJoint.EnableLimit(true);
 		// Setting the limit in Radians for the max angle it can rotate.
-		this._revoluteJoint.SetLimits(0, 0.6108);
+		this._revoluteJoint.SetLimits(-0.6108, 0.6108);
 
-<<<<<<< Updated upstream
-=======
 		// Setting the Width of the Sprite.
 		this._imageWidth = 50;
 		// Setting the Height of the Sprite.
 		this._imageHeight = 30;
-
 		var filter = new b2FilterData();
 		filter.categoryBits = Physics.PLATFORM;
 		filter.groupIndex = 0;
 		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
 		this._body.GetFixtureList().SetFilterData(filter);
->>>>>>> Stashed changes
 		
-		this.budyDef = new b2BodyDef; 										// 
-		this.budyDef.type = b2Body.b2_dynamicBody; 							// 
-		this.budyDef.position.Set(Physics.pixelToMeters(500)				// Code fot creating the Test
-		, Physics.pixelToMeters(10));										// Cube falling from the top.
-		this.budyFixDef = new b2FixtureDef; 								// Can be deleted if the 	
-		this.budyFixDef.density = 10.0; 									// Code turns out ok.
-		this.budyFixDef.friction = 0.4; 									// 
-		this.budyFixDef.restitution = 0.03; 								// 
-		this.budyFixDef.shape = new b2PolygonShape; 						// 
-		this.budyFixDef.shape.SetAsBox(Physics.pixelToMeters(10), 			// 
-		Physics.pixelToMeters(10));											//
-		this.budy = Physics.world.CreateBody(this.budyDef); 				// 
-		this.budy = this.budy.CreateFixture(this.budyFixDef).GetBody();     // 
+	}; 
+
+	SeeSaw.prototype.draw = function(ctx) {
+		// ctx.drawImage(AssetManager.images["seesaw"],x,y,w,h)
+	};
+
+	SeeSaw.prototype.getBody = function() {
+		return this._body;
+	};
+
+	SeeSaw.prototype.update = function() {
 		
-	}; // End Function SeeSaw().
-	
+	};
+
     return SeeSaw;
 } )();

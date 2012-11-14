@@ -4,39 +4,26 @@ var Game = (function () {
     this.canvasContext;  // reference to canvas drawing context
     this.level;          // manages all the objects 
 
-
     function Game() {
 
         Graphics.init();
         this.canvas = Graphics.createCanvas("gameCanvas");
-
         this.canvasContext = this.canvas.getContext("2d");
 		
-        Physics.init(this.canvas);
-			
-       
         Physics.init(this.canvas);  
-        this.playerOne = new Player(10,10, [68,65,87,32,190,188], Physics.PLAYER_ONE, Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO, "player1");  
-        this.playerTwo = new Player(10,10, [39,37,38,98,99,97], Physics.PLAYER_TWO, Physics.PLATFORM | Physics.PLAYER_ONE_BALL | Physics.PLAYER_ONE, "player2");  
-       
-        //                          x , y.[left,right,up,shoot,rotateleft,rotateright]
-        //this.playerOne = new Player(10,10,[68,65,87,32,190,188]);  
-        //this.playerTwo = new Player(10,10,[39,37,38,98,99,97])
+     
         // Creating the level
-        // this.level = new Level('data/levels/level1.json');
+        this.level = new Level('data/levels/level1.json'); //FIXME Proxy fucking this up
+		    this.level.loadUp(level1JSON);
+        //this.level.loadUp(level2JSON);		
     }
 
     Game.prototype.update = function () {     
-      //update code ...this.canvas
-     
-
-      this.playerOne.update();
-      this.playerTwo.update();
+      this.level.update();
     };
 
     Game.prototype.draw = function () {
-      this.playerOne.Draw(this.canvasContext);
-      this.playerTwo.Draw(this.canvasContext);
+      this.level.draw(this.canvasContext);
     };
 
     Game.prototype.step = function () {

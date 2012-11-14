@@ -1,16 +1,14 @@
 // Floating platform  - Jira task [RWMPA-2]
-// When the player jumps onto the platform 
-// its velocity is "transfered" to the plaform
+// When the player jumps onto the platform which is supended and it moves them across the void
 var FloatingPlatform = (function() {
 	
-
 	function FloatingPlatform(x,y,width,height)
 	{
 		this.body; //Reference to body
 		this.fixture; // refernce to fixture
 
 		var bodyDef = new b2BodyDef;
-		bodyDef.type = b2Body.b2_kinematicBody;
+		bodyDef.type = b2Body.b2_dynamicBody;
 
 		var fixDef = new b2FixtureDef;
 		fixDef.density = 1.0;
@@ -21,11 +19,9 @@ var FloatingPlatform = (function() {
 		fixDef.shape.SetAsBox(Physics.pixelToMeters(width/2),Physics.pixelToMeters(height/2));
 
 		bodyDef.position.x =  Physics.pixelToMeters(x);
-		bodyDef.position.y =  Physics.pixelToMeters(y);
+		bodyDef.position.y =  Physics.pixelToMeters(y/2);//TODO CIARAN WHAT?
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
-<<<<<<< Updated upstream
-=======
 
 		this.body.SetUserData( "FloatingPlatform"+x+y+width+height ); //Give it a unqine name
 
@@ -64,18 +60,25 @@ var FloatingPlatform = (function() {
         d = p2.Copy();
         joint2.length = d.Length();
         Physics.world.CreateJoint(joint2);
-
         var filter = new b2FilterData();
 		filter.categoryBits = Physics.PLATFORM;
 		filter.groupIndex = 0;
 		filter.maskBits = Physics.PLAYER_ONE | Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL;
 		this.body.GetFixtureList().SetFilterData(filter);
->>>>>>> Stashed changes
 	}
+
+	FloatingPlatform.prototype.getBody = function() {
+		return this.body;
+	};
 
 	FloatingPlatform.prototype.update = function() {
 		
 	};
+
+	FloatingPlatform.prototype.draw = function(ctx) {
+		
+	};
+
 
 	return FloatingPlatform;
 

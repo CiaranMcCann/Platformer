@@ -1,6 +1,21 @@
 var Player = (function (){
 	
-	function Player(x, y, keys, catagoryBits, maskBits, userData) {
+	function Player(x, y,userData) {
+
+		if("player1" == userData)
+		{
+					//[left,right,up,shoot,rotateleft,rotateright]
+			var keys = [68,65,87,32,190,188];
+			var catagoryBits = Physics.PLAYER_ONE;
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO;
+		}
+
+		if("player2" == userData)
+		{
+			var keys = [39,37,38,98,99,97];
+			var catagoryBits = Physics.PLAYER_TWO;
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_ONE_BALL | Physics.PLAYER_ONE;
+		}
 
 		var box = new b2BodyDef;
 		this.keyCodes = keys;
@@ -15,8 +30,8 @@ var Player = (function (){
       	fixDef2.shape = new b2CircleShape(0.5);
         this.fixDef1.shape.SetAsBox(0.5,0.5);
 
-        box.position.x = Math.random() * 25;
-        box.position.y = Math.random() * 10;
+        box.position.x = Physics.pixelToMeters(x);
+        box.position.y = Physics.pixelToMeters(y);
 		this.pad = new GamePad();
 		this.pad.Connect(); 
  		this.currentVolicty = null;
@@ -24,14 +39,14 @@ var Player = (function (){
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
 
+		this.maxJump = 12;
+		this.minJump = 4;
 		var filter = new b2FilterData();
 		filter.categoryBits = catagoryBits;
 		filter.groupIndex = 0;
 		filter.maskBits = maskBits;
 		this.playerBody.GetFixtureList().SetFilterData(filter);
 
-		this.maxJump = 60;
-		this.minJump = 30;
 		this.jump = 0;
 
 		this.targetDirection = new b2Vec2(this.playerBody.GetPosition().Copy().x+50, this.playerBody.GetPosition().Copy().y);
@@ -45,13 +60,9 @@ var Player = (function (){
 		this.triggerDown = false;
 
 		this.direction = 1;
-<<<<<<< Updated upstream
-=======
 		//this.playerBody.SetUserData( "player"); //Give it a unqine name
-
 		this.drawManualBalls = false;
 		this.toggleManual = false;
->>>>>>> Stashed changes
 	}
 
 	Player.prototype.update = function()
@@ -73,26 +84,32 @@ var Player = (function (){
 		 	this.currentVolicty.x = -5;
 		 	this.direction = -1;
 		 }
+		 this.playerBody.SetLinearVelocity(this.currentVolicty);
 		 if(keyboard.isKeyDown(this.keyCodes[2]) || this.pad.buttonPressed(0))
 		 {
+		 	
 		 	if(this.jump == 0 && this.currentVolicty.y == 0)
 		 	{
-		 		this.jump = 30;
+		 		this.jump = this.minJump;
 		 	}
 		 	if(this.maxJump <= this.jump && this.currentVolicty.y == 0)
 		 	{
-		 		this.currentVolicty.y = this.jump;
-		 		this.jump = 0;
+		 		var point = new b2Vec2(0,0);
+		 		var force = new b2Vec2(0,-this.jump);
+			 	this.playerBody.ApplyImpulse(force,point);
+			 	this.jump = 0;
 		 	}
-		 	if(this.currentVolicty.y == 0)
+		 	else if(this.currentVolicty.y == 0)
 		 	{
-		 		this.jump = this.jump + 2;
+		 		this.jump = this.jump + 1;
 		 	}
 		 	
 		 }
 		 else if(this.jump != 0 && this.currentVolicty.y == 0)
 		 {
-		 	this.currentVolicty.y = this.jump;
+		 	var point = new b2Vec2(0,0);
+		 	var force = new b2Vec2(0,-this.jump);
+			 this.playerBody.ApplyImpulse(force,point);
 		 	this.jump = 0;
 		 }
 
@@ -167,7 +184,7 @@ var Player = (function (){
 			this.targetDirection.y = ynew + 0;
 		}
 
-<<<<<<< Updated upstream
+		
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
 =======
 		if(keyboard.isKeyDown(88)) {
@@ -207,7 +224,7 @@ var Player = (function (){
 		this.playerBody.SetLinearVelocity(this.currentVolicty);
 	};
 
-	Player.prototype.Draw = function(ctx)
+	Player.prototype.draw = function(ctx)
 	{
 		var pos =  this.playerBody.GetPosition();
 		var targetDir = this.targetDirection.Copy();
@@ -270,6 +287,10 @@ var Player = (function (){
 			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 0.51, 5);
 			this.curBalls++;
 		}
+	};
+
+	Player.prototype.getBody = function() {
+		return this.playerBody;
 	};
 
 	return Player;
