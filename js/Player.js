@@ -366,7 +366,8 @@ var Player = (function (){
 			frame = 30;
 		}
 
-		ctx.drawImage(AssetManager.images["player"], frame, 0, 30, 39, Physics.metersToPixels(pos.x)-15, Physics.metersToPixels(pos.y)-30, 30, 45);
+		ctx.drawImage(AssetManager.images[this.playerBody.GetFixtureList().GetBody().GetUserData()], frame, 0, 30, 39, Physics.metersToPixels(pos.x)-15, Physics.metersToPixels(pos.y)-30, 30, 45);
+
 
 		ctx.save();
 
