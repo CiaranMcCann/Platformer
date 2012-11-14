@@ -108,9 +108,26 @@ var SeeSaw = ( function () {
 		
 	}; 
 
+	// Name: Draw
+	// Brief: This function draws a Sprite onto the See Saw Object.
+	// Arguments: ctx   ( the Context we are using )
+	// Returns: N/A
 	SeeSaw.prototype.draw = function(ctx) {
-		// ctx.drawImage(AssetManager.images["seesaw"],x,y,w,h)
-	};
+	
+		this._position = this._body.GetPosition();
+		ctx.save();
+
+        ctx.translate( (Physics.metersToPixels(this._position.x)),
+		Physics.metersToPixels(this._position.y) );
+        ctx.rotate(this._body.GetAngle());
+        ctx.drawImage(AssetManager.images["seesaw"],
+		Physics.pixelToMeters(this._position.x) - Physics.metersToPixels(3.75),
+		Physics.pixelToMeters(this._position.y) - Physics.metersToPixels(0.25),
+		225,
+		10);
+
+        ctx.restore();	
+	}; // End Function Draw().
 
 	SeeSaw.prototype.getBody = function() {
 		return this._body;

@@ -9,7 +9,9 @@ var AssetManager;
        'data/images/cannonBall.png',
        'data/images/player.png',
        'data/images/cannon.png',
-	   'data/images/seesaw.png'
+	   'data/images/seesaw.png',
+	   'data/images/floatingplatform.png',
+	   'data/images/normalplatform.png'
     ];
 
     AssetManager.images = [];

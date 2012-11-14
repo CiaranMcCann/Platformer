@@ -17,56 +17,64 @@ var level2JSON = {
          "x":75,
          "y":375,
          "width":150,
-         "height":500
+         "height":500,
+		 "userData":"'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":480,
          "y":135,
          "width":500,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":400,
          "y":325,
          "width":20,
-         "height":360
+         "height":360,
+		 "userData":"'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":220,
          "y":375,
          "width":140,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":450,
          "y":515,
          "width":360,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	  {
         "type":"NormalPlatform",
          "x":275,
          "y":615,
          "width":250,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	    {
         "type":"NormalPlatform",
          "x":940,
          "y":275,
          "width":220,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	   {
         "type":"NormalPlatform",
          "x":940,
          "y":645,
          "width":220,
-         "height":20
+         "height":20,
+		 "userData":"'normal'"
       },
 	    {
         "type":"SeeSaw",
@@ -81,7 +89,16 @@ var level2JSON = {
          "y":660,
          "width":110,
          "height":5
+      },
+	  {
+        "type":"NormalPlatform",
+         "x":512,
+         "y":755,
+         "width":1020,
+         "height":20,
+		 "userData":"'hurtbox'"
       }
+	  
 	  
    ]
 }
