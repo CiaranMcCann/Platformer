@@ -24,7 +24,7 @@ var Player = (function (){
       	box.userData = userData;
       	this.playerBody = null;
 		this.fixDef1 = new b2FixtureDef();
-		this.fixDef1.density = 10.0;
+		this.fixDef1.density = 1.2;
 		
 
 		var fixDef2 = new b2FixtureDef();
@@ -40,6 +40,7 @@ var Player = (function (){
  		this.playerBody = Physics.world.CreateBody(box);
  		this.playerBody.CreateFixture(this.fixDef1);
 		this.playerBody.CreateFixture(fixDef2);
+		this.playerBody.SetFixedRotation(true);
 
 		
 		this.maxJump = 10;
