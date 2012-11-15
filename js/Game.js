@@ -19,7 +19,7 @@ var Game = (function () {
      
         // Creating the level
         this.level = new Level();
-		this.level.loadUp(Level3JSON, this.canvas);
+		this.level.loadUp(level2JSON, this.canvas);
 
         this.currentLevel = 1; 
         this.currentChanginglevel = false;    	
