@@ -14,6 +14,7 @@ var AssetManager;
 	   'data/images/seesaw.png',
 	   'data/images/floatingplatform.png',
 	   'data/images/normalplatform.png',
+       'data/images/breakablebody.png',
 	   'data/images/spikes.png'
     ];
 

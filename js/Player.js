@@ -7,14 +7,14 @@ var Player = (function (){
 					//[left,right,up,shoot,rotateleft,rotateright]
 			var keys = [68,65,87,32,190,188];
 			var catagoryBits = Physics.PLAYER_ONE;
-			var maskBits = Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO;
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_TWO_BALL | Physics.PLAYER_TWO | Physics.BREAKABLE;
 		}
 
 		if("player2" == userData)
 		{
 			var keys = [39,37,38,98,99,97];
-			var catagoryBits = Physics.PLAYER_TWO;
-			var maskBits = Physics.PLATFORM | Physics.PLAYER_ONE_BALL | Physics.PLAYER_ONE;
+			var catagoryBits = Physics.PLAYER_TWO; 
+			var maskBits = Physics.PLATFORM | Physics.PLAYER_ONE_BALL | Physics.PLAYER_ONE | Physics.BREAKABLE;
 		}
 
 		var box = new b2BodyDef;
@@ -52,8 +52,14 @@ var Player = (function (){
 		filter.groupIndex = 0;
 		filter.maskBits = maskBits;
 		fixture.SetFilterData(filter);
-		fixture = fixture.GetNext();
-		fixture.SetFilterData(filter);
+		if("player2" == userData)
+		{
+			
+			fixture = fixture.GetNext();
+			fixture.SetFilterData(filter);
+		}
+
+
 		this.gotoAngle = 0;
 		this.jump = 0;
 
@@ -496,7 +502,7 @@ var Player = (function (){
 		// Create and fire new cannon ball
 		var data = this.playerBody.GetFixtureList().GetBody().GetUserData();
 		if(data == "player1") {
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p1Ball");
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_ONE_BALL, Physics.PLAYER_TWO | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM | Physics.BREAKABLE, "p1Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
 			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);
@@ -504,7 +510,7 @@ var Player = (function (){
 		}
 		else if(data == "player2") {
 
-			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM, "p2Ball");
+			this.cannonBalls[this.curBalls] = new CannonBall(Physics.world,  pos.x, pos.y, Physics.PLAYER_TWO_BALL, Physics.PLAYER_ONE | Physics.PLAYER_ONE_BALL | Physics.PLAYER_TWO_BALL | Physics.PLATFORM | Physics.BREAKABLE, "p2Ball");
 			var r = this.fixDef1.shape.m_radius*10;
 			this.cannonBalls[this.curBalls].fire( pos.x+r, pos.y+r, this.targetDirection.x, this.targetDirection.y);
 			this.manualBalls[this.curBalls] = new ManualPhysicsBall(pos,  this.targetDirection, 10, 5);

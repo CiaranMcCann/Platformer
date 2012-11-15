@@ -60,6 +60,11 @@ var Level = (function(){
 						}
 					}
 
+					if(val[obj].type == "BreakableBody")
+					{
+						constructorStr += ",_this";
+					}
+
 					constructorStr += ")"
 
 					// EVAL or EVIL considered hamrful :)

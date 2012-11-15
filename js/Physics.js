@@ -33,6 +33,7 @@ var Physics;
     Physics.PLAYER_TWO        = 0x0004;
     Physics.PLAYER_TWO_BALL   = 0x0008;
     Physics.PLATFORM          = 0x0010;
+    Physics.BREAKABLE         = 0x0012;
 
     function init(canvas) {
         Physics.worldScale = 30;
