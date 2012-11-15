@@ -24,12 +24,13 @@ var Player = (function (){
       	box.userData = userData;
       	this.playerBody = null;
 		this.fixDef1 = new b2FixtureDef();
+		this.fixDef1.density = 10.0;
 		
 
 		var fixDef2 = new b2FixtureDef();
       	this.fixDef1.shape = new b2PolygonShape;
       	fixDef2.shape = new b2CircleShape(0.5);
-        this.fixDef1.shape.SetAsBox(0.5,0.5 , new b2Vec2(20,0), 0 );
+        this.fixDef1.shape.SetAsBox(0.5,0.5);
 
         box.position.x = Physics.pixelToMeters(x);
         box.position.y = Physics.pixelToMeters(y);
@@ -113,21 +114,7 @@ var Player = (function (){
 					}
 	 			}
 		 	}
-		 	var that = _this;
-		 	var checkAllowJump = function(){
-		 		that.allowJump = Physics.isObjectColliding("hurtbox",that.playerBody.GetUserData(), contact);
-			 	if(that.allowJump == true){this.jump = 0; return 0};
-			 	that.allowJump = Physics.isObjectColliding("normal",that.playerBody.GetUserData(), contact);
-			 	if(that.allowJump == true){this.jump = 0; return 0};
-			 	that.allowJump = Physics.isObjectColliding("floatingplatform",that.playerBody.GetUserData(), contact);
-			 	if(that.allowJump == true){this.jump = 0; return 0};
-				that.allowJump = Physics.isObjectColliding("seesaw",that.playerBody.GetUserData(), contact);
-				if(that.allowJump == true){this.jump = 0; return 0};
-		 	}
-		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
-		 	{
-			 	checkAllowJump();
-			}
+		 	
 
 		 	var that = _this;
 		 	var checkAllowJump = function(){
@@ -144,17 +131,19 @@ var Player = (function (){
 		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player2")
 		 	{
 			 	checkAllowJump();
+			 	this.allowJump = true;
 			}
 
 
 		 	if(_this.playerBody.GetFixtureList().GetBody().GetUserData() == "player1")
 		 	{
 			 	checkAllowJump();
+			 	this.allowJump = true;
 			}
 
 		 })
 
-		this.allowJump = true;
+		
 	}
 
 	Player.prototype.update = function()

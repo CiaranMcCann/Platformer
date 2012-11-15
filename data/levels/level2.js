@@ -18,15 +18,26 @@ var level2JSON = {
          "y":375,
          "width":150,
          "height":500,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	   {
         "type":"NormalPlatform",
-         "x":480,
+         "x":380,
          "y":135,
-         "width":500,
+         "width":300,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
+      },
+        {
+        "type":"NormalPlatform",
+         "x":600,
+         "y":210,
+         "width":200,
+         "height":20,
+         "userData":"'normal'",
+         "angle": 45
       },
 	   {
         "type":"NormalPlatform",
@@ -34,7 +45,8 @@ var level2JSON = {
          "y":325,
          "width":20,
          "height":360,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	   {
         "type":"NormalPlatform",
@@ -42,7 +54,8 @@ var level2JSON = {
          "y":375,
          "width":140,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	   {
         "type":"NormalPlatform",
@@ -50,7 +63,8 @@ var level2JSON = {
          "y":515,
          "width":360,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	  {
         "type":"NormalPlatform",
@@ -58,7 +72,8 @@ var level2JSON = {
          "y":615,
          "width":250,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	    {
         "type":"NormalPlatform",
@@ -66,7 +81,8 @@ var level2JSON = {
          "y":275,
          "width":220,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	   {
         "type":"NormalPlatform",
@@ -74,7 +90,8 @@ var level2JSON = {
          "y":645,
          "width":220,
          "height":20,
-		 "userData":"'normal'"
+		 "userData":"'normal'",
+         "angle": 0
       },
 	    {
         "type":"SeeSaw",
@@ -96,7 +113,8 @@ var level2JSON = {
          "y":755,
          "width":1020,
          "height":20,
-		 "userData":"'hurtbox'"
+		 "userData":"'hurtbox'",
+         "angle": 0
       }
 	  
 	  

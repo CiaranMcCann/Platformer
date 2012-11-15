@@ -1,7 +1,7 @@
 var NormalPlatform = (function() {
 	
 
-	function NormalPlatform(x,y,width,height,userData)
+	function NormalPlatform(x,y,width,height,userData,angle)
 	{
 		this.body; //Reference to body
 		this.fixture; // refernce to fixture
@@ -24,6 +24,11 @@ var NormalPlatform = (function() {
 		bodyDef.position.y =  Physics.pixelToMeters(y);
 		this.fixture = Physics.world.CreateBody(bodyDef).CreateFixture(fixDef);
 		this.body = this.fixture.GetBody();
+
+		if(angle != 0)
+		{
+			this.body.SetAngle(0.785398163)
+		}
 
 		this.body.SetUserData(userData);
 		var filter = new b2FilterData();

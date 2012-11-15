@@ -7,7 +7,8 @@ var level1JSON = {
          "y":130,
          "width":140,
          "height":20,
-         "userData": "'normal'"
+         "userData": "'normal'",
+         "angle": 0
       },
 	   {
         "type":"NormalPlatform",
@@ -15,7 +16,8 @@ var level1JSON = {
          "y":130,
          "width":140,
          "height":20,
-         "userData": "'normal'"
+         "userData": "'normal'",
+         "angle": 0
       },
 	   
 	   {
@@ -42,7 +44,8 @@ var level1JSON = {
          "y":755,
          "width":1100,
          "height":20,
-         "userData": "'hurtbox'"
+         "userData": "'hurtbox'",
+         "angle": 0
       },
 
 	    {
@@ -51,7 +54,8 @@ var level1JSON = {
          "y":275,
          "width":200,
          "height":20,
-         "userData": "'normal'"
+         "userData": "'normal'",
+         "angle": 0
       },
        {
         "type":"NormalPlatform",
@@ -59,7 +63,8 @@ var level1JSON = {
          "y":275,
          "width":200,
          "height":20,
-         "userData": "'normal'"
+         "userData": "'normal'",
+         "angle": 0
       },
 
 	    {
