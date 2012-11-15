@@ -43,14 +43,14 @@ var Level3JSON = {
     },
     {
          "type":"Player",
-         "x":850,
-         "y":680,
+         "x":250,
+         "y":125,
          "userData": "'player2'"
     },
     {
          "type":"Player",
-         "x":100,
-         "y":680,
+         "x":720,
+         "y":80,
          "userData": "'player1'"
     },
     {

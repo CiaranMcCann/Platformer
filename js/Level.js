@@ -31,11 +31,11 @@ var Level = (function(){
 		}
 	};
 
-	Level.prototype.loadUp = function(data,canvas) {
+	Level.prototype.loadUp = function(data,canvas,debugOn) {
 		this.levelEnities = [];
 		// for some reason deleting all bodies cases errors
 		// I belive its due to locking so when loading up level re-init the physics world
-		Physics.init(canvas)
+		Physics.init(canvas,debugOn)
 
 		var _this = this;
 		$.each(data, function(key, val) {

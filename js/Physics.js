@@ -35,7 +35,7 @@ var Physics;
     Physics.PLATFORM          = 0x0010;
     Physics.BREAKABLE         = 0x0012;
 
-    function init(canvas) {
+    function init(canvas,debugOn) {
         Physics.worldScale = 30;
         Physics.world = new b2World(new b2Vec2(0, 10), true);
         Physics.debugDraw = new b2DebugDraw();
@@ -43,8 +43,14 @@ var Physics;
         Physics.debugDraw.SetDrawScale(Physics.worldScale);
         Physics.debugDraw.SetFillAlpha(0.3);
         Physics.debugDraw.SetLineThickness(1);
+        if(debugOn)
+        {
+              Physics.debugDraw.SetFlags( b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit);
+        }else{
+          Physics.debugDraw.SetFlags( b2DebugDraw.e_jointBit);
+        }
         //TODO removed this from below line b2DebugDraw.e_shapeBit;
-        Physics.debugDraw.SetFlags( b2DebugDraw.e_jointBit);
+        
         Physics.world.SetDebugDraw(Physics.debugDraw);
 
 		        //setup bounds of the world
