@@ -70,6 +70,8 @@ var Level = (function(){
   			});
 
 			Logger.debug(_this.levelEnities);
+
+			golbal_TotalPads = 0;
 	};
 
 	Level.prototype.update = function() {
