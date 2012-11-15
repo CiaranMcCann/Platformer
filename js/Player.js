@@ -24,7 +24,7 @@ var Player = (function (){
       	box.userData = userData;
       	this.playerBody = null;
 		this.fixDef1 = new b2FixtureDef();
-		this.fixDef1.density = 1.2;
+		this.fixDef1.density = 1.4;
 		
 
 		var fixDef2 = new b2FixtureDef();
