@@ -129,11 +129,12 @@ var SeeSaw = ( function () {
         ctx.translate( (Physics.metersToPixels(this._position.x)),
 		Physics.metersToPixels(this._position.y) );
         ctx.rotate(this._body.GetAngle());
-        ctx.drawImage(AssetManager.images["seesaw"],
-		Physics.pixelToMeters(this._position.x) - Physics.metersToPixels(3.75),
-		Physics.pixelToMeters(this._position.y) - Physics.metersToPixels(0.25),
-		225,
-		10);
+       
+		ctx.drawImage(AssetManager.images["seesaw"],
+		-this._width,
+		-this._height,
+		this._width * 2,
+		this._height * 2);
 
         ctx.restore();	
 	}; // End Function Draw().

@@ -24,7 +24,7 @@ var level1JSON = {
         "type":"FloatingPlatform",
          "x":650,
          "y":200,
-         "width":60,
+         "width":100,
          "height":20,
          "userData": "'floatingplatform'"
       },
@@ -33,7 +33,7 @@ var level1JSON = {
         "type":"FloatingPlatform",
          "x":330,
          "y":200,
-         "width":60,
+         "width":100,
          "height":20,
          "userData": "'floatingplatform'"
       },
@@ -71,7 +71,7 @@ var level1JSON = {
         "type":"SeeSaw",
          "x":300,
          "y":400,
-         "width":180,
+         "width":120,
          "height":10,
          "userData": "'seesaw'"
       },
@@ -79,7 +79,7 @@ var level1JSON = {
         "type":"SeeSaw",
          "x":700,
          "y":400,
-         "width":180,
+         "width":120,
          "height":10,
          "userData": "'seesaw'"
       },

@@ -98,14 +98,16 @@ var level2JSON = {
          "x":640,
          "y":390,
          "width":110,
-         "height":5
+         "height":10,
+         "userData": "'seesaw'"
       },
 	  {
         "type":"SeeSaw",
          "x":610,
          "y":660,
          "width":110,
-         "height":5
+         "height":10,
+         "userData": "'seesaw'"
       },
 	  {
         "type":"NormalPlatform",
